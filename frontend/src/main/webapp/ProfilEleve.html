@@ -7,7 +7,11 @@
         <link rel="stylesheet" href="style_profileleve.css">
     </head>
     <body>
+
         <h1>Profil Elève</h1>
+        <div class="bouton-container">
+            <button id="bouton-ouvrir-popup">Demander Soutien</button>
+         </div>        
         <div class="container">
             <div class="profil-eleve">
                 <h2>Informations personnelles</h2>
@@ -38,7 +42,29 @@
               <button onclick="document.getElementById('pop-up-background').style.display='none'">Valider</button>
             </div>
         </div>
-        
+
+        <div id="pop-up-soutien" style="display: none;">
+            <div class="popup-soutien">
+              <h2>Demander un soutien</h2>
+
+              <div class="ligne-matiere">
+                <label for="maListe">Choix de la matière :</label>
+                <select id="maListe"></select>
+              </div>
+
+              <div class="ligne-details">
+                <label for="detail">Détails :</label>
+                <input type="text" id="detail" name="detail" placeholder="Précise ta demande">
+              </div>
+
+              <div class="popup-boutons">
+                <button id="valider-popup">Valider</button>
+                <button id="fermer-popup">Fermer</button>
+              </div>
+            </div>
+          </div>
+
+
         
         <script>
             $(document).ready(function() { 
@@ -89,6 +115,36 @@
                         item.append(corps, bouton);
                         listeSoutienHtml.append(item);
                     }
+                    
+                    let boutonSoutien = document.getElementById("bouton-ouvrir-popup");
+                    boutonSoutien.addEventListener("click", function () {
+                        console.log("Appel AJAX");
+                        $.ajax({
+                            url: "./ActionServlet",
+                            type: "POST",
+                            data: { todo: "listerMatiere" },
+                            dataType: "json"
+                        })
+                        .done(function(response) {
+                            document.getElementById("pop-up-soutien").style.display = 'block';
+
+                            let boutonFermerSoutien = document.getElementById("fermer-popup");
+                            boutonFermerSoutien.addEventListener("click", function () {
+                                document.getElementById("pop-up-soutien").style.display = 'none';
+                            });
+                            let matieres = response;
+                            let selectMatiere = $("#maListe");
+
+                            for (const matiere of matieres) {
+                                const option = $("<option>").val(matiere.id).text(matiere.nom);
+                                selectMatiere.append(option);
+                            }
+                        })
+                        .fail(function(error) {
+                            console.error("Erreur AJAX :", error);
+                        });
+                    });
+
                 }) 
                 . fail (function(error) { 
                     $("#maListe").text("Erreur");
