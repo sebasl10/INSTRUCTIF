@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </head>
+    <body>
+        <h1>Liste matières</h1>
+        <ul id="maListe"></ul>
+        <script>
+            $(document).ready(function() { 
+                console.log("Appel AJAX"); // affichage dans la console web
+                $.ajax ({
+                    url:"./ActionServlet",
+                    type:"POST",
+                    data: {todo: "listerMatiere"},
+                    dataType:"json"
+                })
+                . done (function(response) { 
+                    let matieres = response;
+                    let listeMatieresHtml = $("#maListe");
+                    listeMatieresHtml.empty();
+                    for(const matiere of matieres){
+                        listeMatieresHtml.append($("<li>").text(matiere.nom));
+                    }
+                }) 
+                . fail (function(error) { 
+                    $("#maListe").text("Erreur");
+                }) 
+            });
+        </script>
+
+
+    </body>
+</html>

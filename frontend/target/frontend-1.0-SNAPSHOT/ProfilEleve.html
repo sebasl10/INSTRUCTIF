@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Profil élève</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" href="style_profileleve.css">
+    </head>
+    <body>
+        <h1>Profil Elève</h1>
+        <div class="container">
+            <div class="profil-eleve">
+                <h2>Informations personnelles</h2>
+                <p>Nom : <span id="nom"></span></p>
+                <p>Prénom : <span id="prenom"></span></p>
+                <p>Date de Naissance : <span id="dateNaissance"></span></p>
+                <p>Email : <span id="email"></span></p>
+                <p>Classe : <span id="classe"></span></p>
+                <p>Établissement : <span id="etablissement"></span></p>
+            </div>
+
+            <div id="historique">
+                <h2>Historique des soutiens</h2>
+                <ul id="liste_historique"></ul>
+            </div>
+        </div>
+        
+        <div id="pop-up-background">
+            <div id="pop-up" >
+              <h2>Alors, comment s'est passée la séance?</h2>
+              <div class="etoiles">
+                  <span class="etoile" data-value="1">&#9733;</span>
+                  <span class="etoile" data-value="2">&#9733;</span>
+                  <span class="etoile" data-value="3">&#9733;</span>
+                  <span class="etoile" data-value="4">&#9733;</span>
+                  <span class="etoile" data-value="5">&#9733;</span>
+              </div>
+              <button onclick="document.getElementById('pop-up-background').style.display='none'">Valider</button>
+            </div>
+        </div>
+        
+        
+        <script>
+            $(document).ready(function() { 
+                console.log("Appel AJAX"); // affichage dans la console web
+                $.ajax ({
+                    url:"./ActionServlet",
+                    type:"POST",
+                    data: {todo: "ProfilEleve"},
+                    dataType:"json"
+                })
+                . done (function(response) { 
+                    let monEleve = response;
+                    $("#nom").text(monEleve.nom);
+                    $("#prenom").text(monEleve.prenom);
+                    $("#classe").text(monEleve.classe);
+                    $("#email").text(monEleve.email);
+                    $("#dateNaissance").text(monEleve.naissance);
+                    $("#etablissement").text(monEleve.ecole.nom);
+                    
+                    let listeSoutienHtml = $("#liste_historique");
+                    listeSoutienHtml.empty();
+                    
+                    for (const soutien of monEleve.historique) {
+                        let item = $("<li>");
+
+                        // Corps avec intervenant et matière et détails
+                        let corps = $("<div>").append(
+                            $("<div>").text("Séance du " + soutien.dateDemande),
+                            $("<p>").text("Intervenant : " + soutien.intervenant.prenom + " " + soutien.intervenant.nom),
+                            $("<p>").text("Matière : " + soutien.matiere.nom),
+                            $("<p>").text("Détails : " + soutien.details)
+                        );
+
+                        // Bouton
+                        let bouton;
+                        if (soutien.note !== null && soutien.note !== undefined) {
+                            bouton = $("<button>")
+                                .text(`Noté (${soutien.note}/5)`)
+                                .prop("disabled", true)
+                                .css("background", "#ccc");
+                        } else {
+                            bouton = $("<button>").text("Noter");
+                            bouton.on("click", function(){
+                                document.getElementById('pop-up-background').style.display='block';
+                            });
+                        }
+
+                        item.append(corps, bouton);
+                        listeSoutienHtml.append(item);
+                    }
+                }) 
+                . fail (function(error) { 
+                    $("#maListe").text("Erreur");
+                }) 
+            });
+        </script>
+
+
+    </body>
+</html>

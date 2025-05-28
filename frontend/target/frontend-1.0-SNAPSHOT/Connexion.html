@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" href="style_connexion.css">
+    </head>
+    <body>
+        <h1>Instruct'IF</h1>
+        <form id="formulaire">
+            <input type="email" name ="email" placeholder="Adresse e-mail">
+            <input type="password" name = "password" placeholder="Mot de passe">
+            <input type="submit" value="Connexion">
+        </form>
+        <p id="maPersonne"></p>
+        <script>
+            $(document).ready(function() { 
+                $("#formulaire").on("submit",function(event){
+                    event.preventDefault();
+                    console.log("Appel AJAX"); // affichage dans la console web
+                     let email = $("input[name='email']").val();
+                     let password = $("input[name='password']").val();
+                    $.ajax ({
+                        url:"./ActionServlet",
+                        type:"POST",
+                        data: {
+                                todo: "Connexion",
+                                email: email,
+                                password: password
+                              },
+                        dataType:"json"
+                    })
+
+                    . done (function(response) { 
+                        if(response.type === "Eleve") {
+                            window.location.href = "ProfilEleve.html";
+                        } 
+                        else if (response.type === "Null"){
+                            $("#maPersonne").text("Erreur de connexion");
+                        }
+                        else {
+                            window.location.href = "DashboardIntervenant.html";
+                        }
+                    }) 
+                    . fail (function(error) { 
+                        $("#maPersonne").text("Erreur de connexion");
+                    }) 
+                
+                })
+                
+            });
+        </script>
+    </body>
+</html>

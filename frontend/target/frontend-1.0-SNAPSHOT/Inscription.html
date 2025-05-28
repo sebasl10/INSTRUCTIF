@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Inscription</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" href="style_inscription.css">
+    </head>
+    <body>
+        <h1>Inscription élève</h1>
+        <form id="formulaire">
+            <input type="text" name = "nom" placeholder="Nom">
+            <input type="text" name = "prenom" placeholder="Prenom">
+            <input type="email" name = "email" placeholder="Adresse e-mail">
+            <input type="password" name = "password" placeholder="Mot de passe">
+            <input type="date" name="date">
+            <input type="text" name = "codeEtablissement" placeholder="Code d'établissement" value = "0692155T">
+            
+            <select id="classe" name="classe">
+                <option value="6">6ème</option>
+                <option value="5">5ème</option>
+                <option value="4">4ème</option>
+                <option value="3">3ème</option>
+                <option value="2">2nd</option>
+                <option value="1">1ère</option>
+                <option value="0">Terminal</option>
+            </select>
+            
+            <input type="submit" value="Suivant">
+            
+        </form>
+        
+        <script>
+            $(document).ready(function() { 
+                $("#formulaire").on("submit",function(event){
+                    event.preventDefault();
+                    console.log("Appel AJAX"); // affichage dans la console web
+                     let email = $("input[name='email']").val();
+                     let password = $("input[name='password']").val();
+                     let nom = $("input[name='nom']").val();
+                     let prenom = $("input[name='prenom']").val();
+                     let date = $("input[name='date']").val();
+                     let codeEtablissement = $("input[name='codeEtablissement']").val();
+                    let classe = $("select[name='classe']").val();                     
+                    
+                    $.ajax ({
+                        url:"./ActionServlet",
+                        type:"POST",
+                        data: {
+                                todo: "Inscription",
+                                email: email,
+                                password: password,
+                                nom:nom,
+                                prenom:prenom,
+                                date:date,
+                                codeEtablissement:codeEtablissement,
+                                classe:classe
+                              },
+                        dataType:"json"
+                    })
+
+                    . done (function(response) { 
+                        window.location.href = "ProfilEleve.html";
+                    }) 
+                    . fail (function(error) { 
+                        $("#monEleve").text("Erreur de connexion");
+                    }) 
+                
+                })
+                
+            });
+        </script>
+    </body>
+</html>

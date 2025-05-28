@@ -1,0 +1,11 @@
+web\vue\ProfilEleveSerialisation.class
+web\controleur\ActionServlet.class
+web\modele\ProfilEleve.class
+web\modele\Action.class
+web\vue\InscriptionSerialisation.class
+web\modele\listerMatiere.class
+web\vue\Serialisation.class
+web\modele\Connexion.class
+web\vue\ConnexionSerialisation.class
+web\vue\listerMatiereSerialisation.class
+web\modele\Inscription.class
