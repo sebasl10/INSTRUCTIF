@@ -19,10 +19,12 @@ import web.modele.Connexion;
 import web.modele.DemandeSoutien;
 import web.modele.Inscription;
 import web.modele.ProfilEleve;
+import web.modele.ProfilIntervenant;
 import web.modele.listerMatiere;
 import web.vue.ConnexionSerialisation;
 import web.vue.InscriptionSerialisation;
 import web.vue.ProfilEleveSerialisation;
+import web.vue.ProfilIntervenantSerialisation;
 import web.vue.listerMatiereSerialisation;
 
 /**
@@ -82,6 +84,15 @@ public class ActionServlet extends HttpServlet {
 
                     ProfilEleveSerialisation profilEleveSerialisation = new ProfilEleveSerialisation();
                     profilEleveSerialisation.appliquer(request, response);
+                    break;
+                    
+                case "ProfilIntervenant":
+                    ProfilIntervenant monProfilIntervenant = new ProfilIntervenant(service);
+                    monProfilIntervenant.execute(request);
+
+
+                    ProfilIntervenantSerialisation profilIntervenantSerialisation = new ProfilIntervenantSerialisation();
+                    profilIntervenantSerialisation.appliquer(request, response);
                     break;
                     
                 case "DemanderSoutien":
