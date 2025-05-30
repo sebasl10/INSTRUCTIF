@@ -7,7 +7,11 @@
         <link rel="stylesheet" href="style_profileleve.css">
     </head>
     <body>
+
         <h1>Profil Elève</h1>
+        <div class="bouton-container">
+            <button id="bouton-ouvrir-popup">Demander Soutien</button>
+         </div>        
         <div class="container">
             <div class="profil-eleve">
                 <h2>Informations personnelles</h2>
@@ -38,11 +42,39 @@
               <button onclick="document.getElementById('pop-up-background').style.display='none'">Valider</button>
             </div>
         </div>
-        
+
+        <div id="pop-up-soutien" style="display: none;">
+            <div class="popup-soutien">
+              <h2>Demander un soutien</h2>
+
+              <div class="ligne-matiere">
+                <label for="maListe">Choix de la matière :</label>
+                <select id="maListe"></select>
+              </div>
+
+              <div class="ligne-details">
+                <label for="detail">Détails :</label>
+                <textarea id="detail" name="detail" placeholder="Précise ta demande"></textarea>
+              </div>
+
+              <div class="popup-boutons">
+                <button id="valider-popup">Valider</button>
+                <button id="fermer-popup">Fermer</button>
+              </div>
+              
+              <div class="test">
+                    <p id="test1">1</p>
+                    <p id="test2">2</p>
+                </div>
+              
+            </div>
+          </div>
+
+
         
         <script>
             $(document).ready(function() { 
-                console.log("Appel AJAX"); // affichage dans la console web
+                console.log("Appel AJAX Charger Infos Eleve"); // affichage dans la console web
                 $.ajax ({
                     url:"./ActionServlet",
                     type:"POST",
@@ -89,6 +121,63 @@
                         item.append(corps, bouton);
                         listeSoutienHtml.append(item);
                     }
+                    
+                    let boutonSoutien = document.getElementById("bouton-ouvrir-popup");
+                    boutonSoutien.addEventListener("click", function () {
+                        console.log("Appel AJAX Charger Matière");
+                        $.ajax({
+                            url: "./ActionServlet",
+                            type: "POST",
+                            data: { todo: "listerMatiere" },
+                            dataType: "json"
+                        })
+                        .done(function(response) {
+                            document.getElementById("pop-up-soutien").style.display = 'block';
+
+                            let boutonFermerSoutien = document.getElementById("fermer-popup");
+                            boutonFermerSoutien.addEventListener("click", function () {
+                                document.getElementById("pop-up-soutien").style.display = 'none';
+                            });
+                            let matieres = response;
+                            let selectMatiere = $("#maListe");
+                            selectMatiere.empty();
+                            
+
+                            for (const matiere of matieres) {
+                                const option = $("<option>").val(matiere.id).text(matiere.nom);
+                                selectMatiere.append(option);
+                            }
+                        })
+                        .fail(function(error) {
+                            console.error("Erreur AJAX :", error);
+                        });
+                    });
+                    
+                    
+                    let boutonDemanderSoutien = document.getElementById("valider-popup");
+                    boutonDemanderSoutien.addEventListener("click",function() {
+                        $("#test1").text("Ça a marché bozo");
+
+                        let details = document.getElementById("detail").value;
+                        let nomMatiere = $("#maListe option:selected").text();;
+                        console.log("AppelAjax demander Soutien");
+                        $.ajax({
+                            url: "./ActionServlet",
+                            type: "POST",
+                            data: { todo: "DemanderSoutien",
+                                    details:details,
+                                    matiere:nomMatiere}
+                        })
+                        .done (function(){
+                            //document.getElementById("pop-up-soutien").style.display = 'none';
+                                            $("#test2").text("Ça a marché bozo2");
+
+                        })
+                        .fail(function(error) {
+                            console.error("Erreur AJAX :", error);
+                        });
+                    });
+
                 }) 
                 . fail (function(error) { 
                     $("#maListe").text("Erreur");
@@ -96,6 +185,6 @@
             });
         </script>
 
-
+        <div style="height: 100px;"></div>
     </body>
 </html>

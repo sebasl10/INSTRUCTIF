@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import metier.modele.Personne;
 import metier.service.Service;
 import web.modele.Connexion;
+import web.modele.DemandeSoutien;
 import web.modele.Inscription;
 import web.modele.ProfilEleve;
 import web.modele.listerMatiere;
@@ -81,6 +82,15 @@ public class ActionServlet extends HttpServlet {
 
                     ProfilEleveSerialisation profilEleveSerialisation = new ProfilEleveSerialisation();
                     profilEleveSerialisation.appliquer(request, response);
+                    break;
+                    
+                case "DemanderSoutien":
+                    DemandeSoutien maDemande = new DemandeSoutien(service);
+                    maDemande.execute(request);
+
+
+                    //ProfilEleveSerialisation profilEleveSerialisation = new ProfilEleveSerialisation();
+                    //profilEleveSerialisation.appliquer(request, response);
                     break;
                     
                 default:

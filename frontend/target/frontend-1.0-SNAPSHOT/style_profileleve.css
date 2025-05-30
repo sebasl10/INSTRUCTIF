@@ -133,3 +133,152 @@ h1 {
     transition: background-color 0.3s;
     margin-right: 40px;
 }
+
+/* Fond noir semi-transparent couvrant tout l'écran */
+#pop-up-soutien {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+/* Boîte du popup */
+.popup-soutien {
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    max-width: 90%;
+    text-align: left;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Titre */
+.popup-soutien h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Ligne matière et détails */
+.ligne-matiere,
+.ligne-details {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Labels */
+.ligne-matiere label,
+.ligne-details label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #444;
+}
+
+/* Select et Input */
+#maListe {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+}
+
+#detail {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+    width: 100%;
+    min-height: 80px;
+    resize: vertical;
+}
+
+
+#maListe:focus,
+#detail:focus {
+    border-color: #4facfe;
+    outline: none;
+}
+
+/* Conteneur des boutons */
+.popup-boutons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Boutons */
+#valider-popup,
+#fermer-popup {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Bouton Valider */
+#valider-popup {
+    background-color: #4facfe;
+    color: white;
+}
+
+#valider-popup:hover {
+    background-color: #00c3ff;
+    transform: translateY(-1px);
+}
+
+/* Bouton Fermer */
+#fermer-popup {
+    background-color: #ccc;
+    color: #333;
+}
+
+#fermer-popup:hover {
+    background-color: #bbb;
+    transform: translateY(-1px);
+}
+
+/* Conteneur du bouton aligné à droite */
+.bouton-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -40px; /* remonte pour qu’il reste proche du <h1> */
+    margin-bottom: 30px;
+}
+
+/* Style du bouton */
+#bouton-ouvrir-popup {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: #e0e0e0;
+    color: #333;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Effet au survol */
+#bouton-ouvrir-popup:hover {
+    background-color: #d5d5d5;
+    transform: translateY(-2px);
+}
+

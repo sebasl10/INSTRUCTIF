@@ -186,8 +186,7 @@ h1 {
 }
 
 /* Select et Input */
-#maListe,
-#detail {
+#maListe {
     padding: 10px;
     font-size: 1rem;
     border: 1px solid #ccc;
@@ -195,6 +194,19 @@ h1 {
     background-color: #f9f9f9;
     transition: border-color 0.3s;
 }
+
+#detail {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+    width: 100%;
+    min-height: 80px;
+    resize: vertical;
+}
+
 
 #maListe:focus,
 #detail:focus {

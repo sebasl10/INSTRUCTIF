@@ -3,6 +3,7 @@ web\controleur\ActionServlet.class
 web\modele\ProfilEleve.class
 web\modele\Action.class
 web\vue\InscriptionSerialisation.class
+web\modele\DemandeSoutien.class
 web\modele\listerMatiere.class
 web\vue\Serialisation.class
 web\modele\Connexion.class

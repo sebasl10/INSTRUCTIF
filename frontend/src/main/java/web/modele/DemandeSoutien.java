@@ -19,22 +19,30 @@ import metier.service.Service;
  *
  * @author lletouze
  */
-public class DemanderSoutien extends Action{
+public class DemandeSoutien extends Action{
 
-    public DemanderSoutien(Service service) {
+    public DemandeSoutien(Service service) {
         super(service);
     }
 
     @Override
     public void execute(HttpServletRequest request) {
         String matiere = request.getParameter("matiere");
+                                System.out.println("YYYYYYYYYYYYYYYYYYYYXXXXXXYYYYYYYYYYYYYYYYYYYYYYYYYYY");
+        System.out.println(matiere);
+
         String details = request.getParameter("details");
         try {
             HttpSession session = request.getSession();
             Personne maPersonne = service.rechercherPersonneParId((Long) session.getAttribute("id"));
             Eleve monEleve = service.rechercherEleve(maPersonne.getMail());
-            Matiere maMatiere = new Matiere(matiere);
+            
+            Matiere maMatiere = service.rechercherMatierebyNom(matiere);
+
+            System.out.println(maMatiere);
             Soutien monSoutien = service.demanderSoutien(maMatiere,details,monEleve);
+            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            System.out.println(monSoutien);
             session.setAttribute("soutienId", monSoutien.getId());
         } catch (Exception ex) {
             Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
