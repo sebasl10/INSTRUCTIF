@@ -24,6 +24,11 @@ public class IntervenantAutre extends Intervenant {
         this.activite = activite;
     }
 
+    @Override
+    public String toString() {
+        return "IntervenantAutre{" + "activite=" + activite + '}';
+    }
+
     
 
     public String getActivite() {

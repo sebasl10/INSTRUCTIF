@@ -24,6 +24,11 @@ public class IntervenantEnseignant extends Intervenant {
         this.type_etab = type_etab;
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + "IntervenantEnseignant{" + "type_etab=" + type_etab + '}';
+    }
+
     
 
     public String getType_etab() {

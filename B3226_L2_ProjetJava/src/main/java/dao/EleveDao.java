@@ -39,7 +39,8 @@ public class EleveDao {
     public List<Soutien> findSoutiens (Eleve eleve){
         Query query = JpaUtil.obtenirContextePersistance()
                 .createQuery("SELECT s FROM Soutien s "
-                        + "WHERE s.eleve = :elve");
+                        + "WHERE s.eleve = :elve"
+                        + " AND s.dateFin IS NOT NULL");
         query.setParameter("elve", eleve);
 
         List<Soutien> result = query.getResultList();

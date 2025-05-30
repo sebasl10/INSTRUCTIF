@@ -132,7 +132,7 @@ public class Service {
             
             soutienDao.create(soutien);
             
-            SimpleDateFormat sdf = new SimpleDateFormat("HH'h'mm");
+            SimpleDateFormat sdf = new SimpleDateFormat("HH'hh'mm");
             String message = "Bonjour " + intervenant.getPrenom() + 
                     ". Merci de prendre en charge la demande de soutien en '" + matiere.getNom() + 
                     "' demandée à " + sdf.format(debut) + " par " + eleve.getPrenom() + " en classe de " + eleve.getClasse() + "ème";
@@ -487,4 +487,30 @@ public class Service {
         
         return matieres;
     }
+    
+    public Matiere rechercherMatierebyNom(String nom){
+        MatiereDao matiereDao = new MatiereDao();
+        Matiere matiere = null;
+        
+        try{
+            JpaUtil.creerContextePersistance();
+            matiere = matiereDao.findByNom(nom);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JpaUtil.annulerTransaction();
+            System.out.println("Erreur");
+
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+
+        if (matiere == null){
+            System.out.println("Aucune matière trouvé");
+        }
+            
+        return matiere;
+    }
 }
+
+
+

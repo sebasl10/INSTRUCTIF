@@ -161,6 +161,12 @@ public class Soutien {
     public void setMatiere(Matiere matiere) {
         this.matiere = matiere;
     }
+
+    @Override
+    public String toString() {
+        return "Soutien{" + "id=" + id + ", dateDemande=" + dateDemande + ", dateDebut=" + dateDebut + ", dateFin=" + dateFin + ", etat=" + etat + ", details=" + details + ", note=" + note + ", feedback=" + feedback + ", eleve=" + eleve + ", intervenant=" + intervenant + ", matiere=" + matiere + '}';
+    }
+    
     
     
 }

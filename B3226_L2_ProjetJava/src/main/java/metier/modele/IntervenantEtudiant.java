@@ -30,6 +30,11 @@ public class IntervenantEtudiant extends Intervenant{
         return specialite;
     }
 
+    @Override
+    public String toString() {
+        return "IntervenantEtudiant{" + "universite=" + universite + ", specialite=" + specialite + '}';
+    }
+
     public void setSpecialite(String specialite) {
         this.specialite = specialite;
     }

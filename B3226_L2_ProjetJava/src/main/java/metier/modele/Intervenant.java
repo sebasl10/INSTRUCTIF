@@ -79,6 +79,11 @@ public abstract class Intervenant extends Personne{
         this.niveauMax = niveauMax;
     }
 
+    @Override
+    public String toString() {
+        return super.toString()+"Intervenant{" + "numTel=" + numTel + ", niveauMin=" + niveauMin + ", niveauMax=" + niveauMax + ", username=" + username + '}';
+    }
+
     
     
     

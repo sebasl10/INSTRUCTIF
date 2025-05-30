@@ -21,6 +21,13 @@ public class Main {
     public static void main(String[] args) {
         JpaUtil.desactiverLog();
         JpaUtil.creerFabriquePersistance();
+        
+        /*
+        Service service = new Service();
+        Matiere matiere = service.rechercherMatierebyNom("maths");
+        System.out.println(matiere.getNom());
+        */
+        
         testerInscrireEleve();
         testerAuthentification();
         testerDemanderSoutien();

@@ -74,6 +74,11 @@ public abstract class Personne {
     public String getPassword() {
         return password;
     }
+
+    @Override
+    public String toString() {
+        return "Personne{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email + ", password=" + password + '}';
+    }
     
     
 }
