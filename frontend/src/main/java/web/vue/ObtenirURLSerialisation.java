@@ -23,7 +23,6 @@ public class ObtenirURLSerialisation extends Serialisation {
         String URL = (String) request.getAttribute("URL");
         Gson gson = new Gson();
         String json=gson.toJson(URL);
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
         System.out.println(json);
         PrintWriter out = response.getWriter();
         out.write(json);
