@@ -40,11 +40,29 @@ and open the template in the editor.
                 </div>
                 <button id="fermer-pop-up">✖</button>
                 <button id="accepter-soutien">Accepter</button>
+                <p id="ContainerURL">URL</p>
             </div>
         </div>
         
         
         <script>
+            function obtenirURL(balise) {
+                console.log("Appel AJAX Charger URL"); // affichage dans la console web
+                $.ajax({
+                    url: "./ActionServlet",
+                    type: "POST",
+                    data: { todo: "ObtenirURL" },
+                    dataType: "json"
+                })
+                .done(function(response) {
+                    $(balise).text(response);
+                })
+                .fail(function(error) {
+                    console.error("Erreur lors de l'obtention de l'URL :", error);
+                    $(balise).text("Erreur lors de la récupération de l'URL");
+                });
+            }
+            
             $(document).ready(function() { 
                 console.log("Appel AJAX Charger Infos Intervenant");
                 $.ajax({
@@ -150,7 +168,11 @@ and open the template in the editor.
                     type: 'POST',
                     data: { todo: 'AccepterSoutien' },
                     datatype: 'json'
-                }).done(function (){}).fail({});
+                }).done(function (){
+                    obtenirURL("#ContainerURL");
+                }).fail(function (error) {
+                    console.error("Erreur AJAX :", error);
+                });
             });
 
         </script>
