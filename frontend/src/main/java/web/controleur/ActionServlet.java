@@ -20,12 +20,14 @@ import web.modele.Connexion;
 import web.modele.DemandeSoutien;
 import web.modele.Inscription;
 import web.modele.NoterSoutien;
+import web.modele.ObtenirURL;
 import web.modele.ProfilEleve;
 import web.modele.ProfilIntervenant;
 import web.modele.RecupererProchainSoutien;
 import web.modele.listerMatiere;
 import web.vue.ConnexionSerialisation;
 import web.vue.InscriptionSerialisation;
+import web.vue.ObtenirURLSerialisation;
 import web.vue.ProfilEleveSerialisation;
 import web.vue.ProfilIntervenantSerialisation;
 import web.vue.RecupererProchainSoutienSerialisation;
@@ -122,7 +124,14 @@ public class ActionServlet extends HttpServlet {
                     RecupererProchainSoutienSerialisation recupererProchainSoutienSerialisation = new RecupererProchainSoutienSerialisation();
                     recupererProchainSoutienSerialisation.appliquer(request, response);
                 break;
+                case "ObtenirURL":
+                    ObtenirURL monURL = new ObtenirURL(service);
+                    monURL.execute(request);
 
+
+                    ObtenirURLSerialisation monURLSerialisation = new ObtenirURLSerialisation();
+                    monURLSerialisation.appliquer(request, response);
+                break;
                     
                 default:
                     // Gérer le cas où `todo` ne correspond à aucune action connue
