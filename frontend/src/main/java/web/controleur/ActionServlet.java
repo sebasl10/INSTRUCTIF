@@ -13,8 +13,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import metier.modele.Personne;
 import metier.service.Service;
+import web.modele.AccepterSoutien;
 import web.modele.AjouterFeedback;
 import web.modele.Connexion;
 import web.modele.DemandeSoutien;
@@ -131,6 +131,11 @@ public class ActionServlet extends HttpServlet {
 
                     ObtenirURLSerialisation monURLSerialisation = new ObtenirURLSerialisation();
                     monURLSerialisation.appliquer(request, response);
+                break;
+                case "AccepterSoutien":
+                    AccepterSoutien monAcceptSoutien = new AccepterSoutien(service);
+                    monAcceptSoutien.execute(request);
+
                 break;
                     
                 default:
