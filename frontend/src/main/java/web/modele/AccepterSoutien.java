@@ -10,7 +10,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import metier.modele.Intervenant;
 import metier.modele.Matiere;
+import metier.modele.Personne;
 import metier.modele.Soutien;
 import metier.service.Service;
 
@@ -27,11 +29,15 @@ public class AccepterSoutien extends Action{
     @Override
     public void execute(HttpServletRequest request) {
     Boolean Accept = null;
+    Intervenant monIntervenant = null;
+    Soutien monSoutien = null;
     try {
         HttpSession session = request.getSession();
-        Long soutienId = (Long) session.getAttribute("soutienId");
-        Soutien monSoutien = service.trouverSoutien(soutienId);
-        Accept = service.accepterSoutien(monSoutien);
+            Personne maPersonne = service.rechercherPersonneParId((Long) session.getAttribute("id"));
+            monIntervenant = service.rechercherIntervenant(maPersonne.getMail());
+            monSoutien = service.recupererSoutienEnAttente(monIntervenant);
+            Accept = service.accepterSoutien(monSoutien);
+            session.setAttribute("soutienId", monSoutien.getId());
     } catch (Exception ex) {
         Logger.getLogger(listerMatiere.class.getName()).log(Level.SEVERE, null, ex);
     }
