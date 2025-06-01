@@ -304,3 +304,7 @@ h1 {
     transform: translateY(-2px);
 }
 
+.btn-disabled {
+  pointer-events: none;  /* Empêche le clic */
+  opacity: 0.5;          /* Aspect grisé */
+}
