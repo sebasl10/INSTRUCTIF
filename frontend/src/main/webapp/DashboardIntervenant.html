@@ -144,6 +144,14 @@ and open the template in the editor.
             fermer_demande.addEventListener("click", function(){
                 document.getElementById('container-pop-up').style.display = 'none';
             });
+            $("#accepter-soutien").click(function(){
+                $.ajax({
+                    url: './ActionServlet',
+                    type: 'POST',
+                    data: { todo: 'AccepterSoutien' },
+                    datatype: 'json'
+                }).done(function (){}).fail({});
+            });
 
         </script>
 
