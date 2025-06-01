@@ -24,13 +24,20 @@ public class listerMatiere extends Action{
 
     @Override
     public void execute(HttpServletRequest request) {
-        List<Matiere> listeMatiere = null;
-        try {
-            listeMatiere = service.recupererMatieres();;
-        } catch (Exception ex) {
-            Logger.getLogger(listerMatiere.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        request.setAttribute("listeMatiere", listeMatiere);
+    List<Matiere> listeMatiere = null;
+    try {
+        listeMatiere = service.recupererMatieres();
+    } catch (Exception ex) {
+        Logger.getLogger(listerMatiere.class.getName()).log(Level.SEVERE, null, ex);
     }
+    request.setAttribute("listeMatiere", listeMatiere);
+
+    // Récupérer l'attribut 'dejaSoutien' dans la session
+    Boolean dejaSoutien = (Boolean) request.getSession().getAttribute("dejaSoutien");
+    if (dejaSoutien == null) {
+        dejaSoutien = false; // par défaut false si absent
+    }
+    request.setAttribute("dejaSoutien", dejaSoutien);
+}
 
 }
