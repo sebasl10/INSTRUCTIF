@@ -50,6 +50,9 @@
             <div class="popup-soutien">
               <h2>Demander un soutien</h2>
 
+              <div class="soutienDemande">
+                  <p id="baliseSoutienDemande"></p>
+              </div>
               <div class="ligne-matiere">
                 <label for="maListe">Choix de la matière :</label>
                 <select id="maListe"></select>
@@ -65,11 +68,7 @@
                 <button id="fermer-popup">Fermer</button>
               </div>
               
-              <div class="test">
-                    <p id="test1">1</p>
-                    <p id="test2">2</p>
-                </div>
-              
+ 
             </div>
           </div>
 
@@ -140,29 +139,46 @@
                         .done(function(response) {
                             document.getElementById("pop-up-soutien").style.display = 'block';
 
+                            // Fermeture popup
                             let boutonFermerSoutien = document.getElementById("fermer-popup");
                             boutonFermerSoutien.addEventListener("click", function () {
                                 document.getElementById("pop-up-soutien").style.display = 'none';
                             });
-                            let matieres = response;
-                            let selectMatiere = $("#maListe");
-                            selectMatiere.empty();
-                            
 
-                            for (const matiere of matieres) {
-                                const option = $("<option>").val(matiere.id).text(matiere.nom);
-                                selectMatiere.append(option);
+                            // Message et bouton valider
+                            let messageElt = document.getElementById("baliseSoutienDemande");
+                            let boutonValider = document.getElementById("valider-popup");
+
+                            if (response.dejaSoutien) {
+                                messageElt.textContent = "Vous avez déjà un soutien en cours";
+                                $("#pop-up-soutien h2").hide();
+                                $(".ligne-matiere").hide();
+                                $(".ligne-details").hide();
+                                $("#valider-popup").hide();
+                            } else {
+                                messageElt.textContent = "";
+                                boutonValider.disabled = false; // réactiver le bouton
+
+                                // Affichage des matières dans la liste déroulante
+                                let matieres = response.listeMatiere;
+                                let selectMatiere = $("#maListe");
+                                selectMatiere.empty();
+
+                                for (const matiere of matieres) {
+                                    const option = $("<option>").val(matiere.id).text(matiere.nom);
+                                    selectMatiere.append(option);
+                                }
                             }
                         })
                         .fail(function(error) {
                             console.error("Erreur AJAX :", error);
                         });
                     });
+
                     
                     
                     let boutonDemanderSoutien = document.getElementById("valider-popup");
                     boutonDemanderSoutien.addEventListener("click",function() {
-                        $("#test1").text("Ça a marché bozo");
 
                         let details = document.getElementById("detail").value;
                         let nomMatiere = $("#maListe option:selected").text();;
@@ -175,8 +191,8 @@
                                     matiere:nomMatiere}
                         })
                         .done (function(){
-                            //document.getElementById("pop-up-soutien").style.display = 'none';
-                                            $("#test2").text("Ça a marché bozo2");
+                            document.getElementById("pop-up-soutien").style.display = 'none';
+                            
 
                         })
                         .fail(function(error) {
