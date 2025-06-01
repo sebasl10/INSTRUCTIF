@@ -44,6 +44,7 @@ public class DemandeSoutien extends Action{
             System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             System.out.println(monSoutien);
             session.setAttribute("soutienId", monSoutien.getId());
+            session.setAttribute("dejaSoutien", true);
         } catch (Exception ex) {
             Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
         }
