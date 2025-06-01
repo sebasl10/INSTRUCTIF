@@ -303,8 +303,3 @@ h1 {
     background-color: #d5d5d5;
     transform: translateY(-2px);
 }
-
-.btn-disabled {
-  pointer-events: none;  /* Empêche le clic */
-  opacity: 0.5;          /* Aspect grisé */
-}
