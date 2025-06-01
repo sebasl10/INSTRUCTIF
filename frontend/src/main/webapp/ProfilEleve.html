@@ -53,6 +53,9 @@
               <div class="soutienDemande">
                   <p id="baliseSoutienDemande"></p>
               </div>
+              <div class="URL">
+                  <p id="baliseURL"></p>
+              </div>
               <div class="ligne-matiere">
                 <label for="maListe">Choix de la matière :</label>
                 <select id="maListe"></select>
@@ -75,6 +78,24 @@
 
         
         <script>
+            function obtenirURL(balise) {
+                console.log("Appel AJAX Charger URL"); // affichage dans la console web
+                $.ajax({
+                    url: "./ActionServlet",
+                    type: "POST",
+                    data: { todo: "ObtenirURL" },
+                    dataType: "json"
+                })
+                .done(function(response) {
+                    $(balise).text(response);
+                })
+                .fail(function(error) {
+                    console.error("Erreur lors de l'obtention de l'URL :", error);
+                    $(balise).text("Erreur lors de la récupération de l'URL");
+                });
+            }
+
+            
             $(document).ready(function() { 
                 console.log("Appel AJAX Charger Infos Eleve"); // affichage dans la console web
                 $.ajax ({
@@ -150,11 +171,12 @@
                             let boutonValider = document.getElementById("valider-popup");
 
                             if (response.dejaSoutien) {
-                                messageElt.textContent = "Vous avez déjà un soutien en cours";
+                                messageElt.textContent = "Vous avez une demande un soutien en cours";
                                 $("#pop-up-soutien h2").hide();
                                 $(".ligne-matiere").hide();
                                 $(".ligne-details").hide();
                                 $("#valider-popup").hide();
+                                obtenirURL("#baliseURL");
                             } else {
                                 messageElt.textContent = "";
                                 boutonValider.disabled = false; // réactiver le bouton
@@ -191,10 +213,13 @@
                                     matiere:nomMatiere}
                         })
                         .done (function(){
-                            document.getElementById("pop-up-soutien").style.display = 'none';
-                            
-
-                        })
+                                document.getElementById("baliseSoutienDemande").textContent = "Vous avez une demande un soutien en cours";
+                                $("#pop-up-soutien h2").hide();
+                                $(".ligne-matiere").hide();
+                                $(".ligne-details").hide();
+                                $("#valider-popup").hide();
+                                obtenirURL("#baliseURL");
+                            })
                         .fail(function(error) {
                             console.error("Erreur AJAX :", error);
                         });
