@@ -38,7 +38,7 @@ public class RecupererProchainSoutien extends Action{
             Logger.getLogger(listerMatiere.class.getName()).log(Level.SEVERE, null, ex);
         }
         request.setAttribute("monIntervenant", monIntervenant);
-        request.setAttribute("historique", monSoutien);
+        request.setAttribute("soutien", monSoutien);
     }
 
 }

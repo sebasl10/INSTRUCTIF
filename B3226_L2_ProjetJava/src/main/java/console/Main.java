@@ -94,7 +94,8 @@ public class Main {
         Eleve eleve = null;
         IntervenantEnseignant enseignant = null;
         Matiere matiere = null;
-        Soutien soutien = null;
+        Soutien soutien1 = null;
+        Soutien soutien2 = null;
         
         // Initialisation des données necessaires
         try{
@@ -132,32 +133,38 @@ public class Main {
         }
         
         // Creation du soutien
-        soutien = service.demanderSoutien(matiere, "je galère", eleve);
+        soutien1 = service.demanderSoutien(matiere, "je galère", eleve);
 
-        System.out.println(soutien.getUrl());
+        System.out.println(soutien1.getUrl());
         
         // Verification du choix de l'intervenant
-        soutien = service.demanderSoutien(matiere, "je galère2", eleve);
+        soutien2 = service.demanderSoutien(matiere, "je galère2", eleve);
 
-        System.out.println(soutien.getUrl());
-        System.out.println(soutien.getIntervenant().getUsername());
-        System.out.println(soutien.getEtat());
+        System.out.println(soutien2.getUrl());
+        System.out.println(soutien2.getIntervenant().getUsername());
+        System.out.println(soutien2.getEtat());
         
         // Intervenant rejoint le soutien
-        service.accepterSoutien(soutien);
-        System.out.println(soutien.getEtat());
+        service.accepterSoutien(soutien1);
+        System.out.println(soutien1.getEtat());
+        
+        service.accepterSoutien(soutien2);
+        System.out.println(soutien2.getEtat());
         
         // Intervenant termine le soutien
-        service.terminerSoutien(soutien);
-        System.out.println(soutien.getEtat());
+        service.terminerSoutien(soutien1);
+        System.out.println(soutien1.getEtat());
+        
+        service.terminerSoutien(soutien2);
+        System.out.println(soutien2.getEtat());
         
         // Eleve note le soutien
-        service.noterSoutien(soutien, (byte)3);
-        System.out.println(soutien.getNote());
+        service.noterSoutien(soutien2, (byte)3);
+        System.out.println(soutien2.getNote());
         
         // Intervenant ajoute un feedback
-        service.ajouterFeedback(soutien, "aaaaaaa bbbbbbb ccccc");
-        System.out.println(soutien.getFeedback());
+        service.ajouterFeedback(soutien2, "aaaaaaa bbbbbbb ccccc");
+        System.out.println(soutien2.getFeedback());
     }
     
     private static void testerTrouverEleve(){

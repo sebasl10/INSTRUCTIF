@@ -14,6 +14,7 @@ import metier.modele.IntervenantAutre;
 import metier.modele.IntervenantEtudiant;
 import metier.modele.Personne;
 import metier.modele.Soutien;
+import metier.modele.Soutien.Etat;
 
 /**
  *
@@ -54,8 +55,9 @@ public class IntervenantDao {
     
     public Soutien soutienAttente(Intervenant intervenant){
         Query query = JpaUtil.obtenirContextePersistance()
-                .createQuery("SELECT s FORM Soutien s WHERE s.intervenant = :inter AND s.etat = 1", Soutien.class);
+                .createQuery("SELECT s FROM Soutien s WHERE s.intervenant = :inter AND s.etat = :etat", Soutien.class);
         query.setParameter("inter", intervenant);
+        query.setParameter("etat", Etat.ATTENTE);
 
         List<Soutien> result = query.getResultList();
         return result.isEmpty() ? null : result.get(0);

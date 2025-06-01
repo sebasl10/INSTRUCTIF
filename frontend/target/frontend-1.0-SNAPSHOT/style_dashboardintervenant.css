@@ -1,0 +1,142 @@
+/* Réinitialisation globale */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    padding: 30px;
+}
+
+/* Titre principal */
+h1 {
+    color: white;
+    font-size: 3rem;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+/* Conteneur général en deux colonnes */
+.container {
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+    margin: 0 40px;
+}
+
+#statistiques {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 40%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Bloc droit : historique */
+#historique {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 55%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#historique h2 {
+    font-size: 1.8rem;
+    color: #4facfe;
+    margin-bottom: 25px;
+}
+
+#liste_historique li {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    list-style-type: none;
+}
+
+#liste_historique p {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #444;
+}
+
+#bouton-seance {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    background-color: white;
+    border: none;
+    font-size: 24px;
+    padding: 10px 14px;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 1000;
+}
+
+#bouton-seance:hover {
+    background-color: #f0f0f0;
+}
+
+.ligne-feedback {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px; 
+}
+
+.ligne-feedback .champ-feedback {
+    width: 90%;
+    padding: 5px;
+    font-size: 14px;
+}
+
+.ligne-feedback .btn-valider-feedback {
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#container-pop-up{
+    display: none; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+}
+
+#pop-up {
+    position: relative;
+    background: #fff;
+    padding: 20px;
+    width: 500px;
+    margin: 200px auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+
+#fermer-pop-up {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #333;
+}
+
+#fermer-pop-up:hover {
+    color: red;
+}

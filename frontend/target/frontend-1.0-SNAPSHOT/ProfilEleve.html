@@ -29,17 +29,20 @@
             </div>
         </div>
         
-        <div id="pop-up-background">
+        <div id="pop-up-noter">
             <div id="pop-up" >
               <h2>Alors, comment s'est passée la séance?</h2>
+              <p id="texte-note"></p>
               <div class="etoiles">
-                  <span class="etoile" data-value="1">&#9733;</span>
-                  <span class="etoile" data-value="2">&#9733;</span>
-                  <span class="etoile" data-value="3">&#9733;</span>
-                  <span class="etoile" data-value="4">&#9733;</span>
-                  <span class="etoile" data-value="5">&#9733;</span>
+                <span class="etoile" data-value="1">&#9733;</span>
+                <span class="etoile" data-value="2">&#9733;</span>
+                <span class="etoile" data-value="3">&#9733;</span>
+                <span class="etoile" data-value="4">&#9733;</span>
+                <span class="etoile" data-value="5">&#9733;</span>
               </div>
-              <button onclick="document.getElementById('pop-up-background').style.display='none'">Valider</button>
+              <p id="note"></p>
+
+              <button id="valider-note">Valider</button>
             </div>
         </div>
 
@@ -98,7 +101,8 @@
 
                         // Corps avec intervenant et matière et détails
                         let corps = $("<div>").append(
-                            $("<div>").text("Séance du " + soutien.dateDemande),
+                            $("<div>").text("Séance du " + soutien.dateFin),
+                            $("<p>").text("Id : " + soutien.id),
                             $("<p>").text("Intervenant : " + soutien.intervenant.prenom + " " + soutien.intervenant.nom),
                             $("<p>").text("Matière : " + soutien.matiere.nom),
                             $("<p>").text("Détails : " + soutien.details)
@@ -114,7 +118,9 @@
                         } else {
                             bouton = $("<button>").text("Noter");
                             bouton.on("click", function(){
-                                document.getElementById('pop-up-background').style.display='block';
+                                document.getElementById('pop-up-noter').style.display='block';
+                                $("#texte-note").text("Séance du "+soutien.dateFin+" en "+soutien.matiere.nom);
+                                soutienANoterId = soutien.id;
                             });
                         }
 
@@ -183,6 +189,51 @@
                     $("#maListe").text("Erreur");
                 }) 
             });
+            
+            let score = 0;
+            let soutienANoterId = null;
+
+            const etoiles = document.querySelectorAll('.etoile');
+            const noteText = document.getElementById('note');
+
+            etoiles.forEach((etoile, index) => {
+                etoile.addEventListener('click', () => {
+                    score = index + 1;
+                    noteText.textContent = `Vous avez donné une note de ${score} étoile${score > 1 ? 's' : ''}.`;
+                    etoiles.forEach((e, i) => {
+                        if (i < score) {
+                            e.classList.add('active');
+                        } else {
+                            e.classList.remove('active');
+                        }
+                    });
+                });
+            });
+            
+            document.getElementById('valider-note').addEventListener('click', function () {
+            if (score === 0) {
+                alert("Merci de sélectionner une note avant de valider.");
+                return;
+            }
+
+            $.ajax({
+                url: './ActionServlet',
+                type: 'POST',
+                data: {
+                    todo: 'NoterSoutien',
+                    note: score,
+                    idSeance: soutienANoterId
+                }
+            })
+            .done(function () {
+                document.getElementById('pop-up-noter').style.display = 'none';
+                location.reload(); // ou mets à jour dynamiquement l'historique si tu veux
+            })
+            .fail(function (error) {
+                console.error("Erreur AJAX :", error);
+                alert("Erreur lors de l'envoi de la note.");
+            });
+        });
         </script>
 
         <div style="height: 100px;"></div>

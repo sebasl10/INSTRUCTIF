@@ -10,49 +10,142 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" href="style_dashboardintervenant.css">
     </head>
     <body>
         <h1>Dashboard Intervenant</h1>
-        
-        <div id="historique">
+        <button id="bouton-seance">🔔</button>
+
+        <div class="container">
+            <div id="statistiques">
+                <h2>Statistiques</h2>
+            </div>
+            <div id="historique">
                 <h2>Historique des soutiens</h2>
                 <ul id="liste_historique"></ul>
+                <p id="message"></p>
+            </div>
         </div>
+        
+        <div id="container-pop-up">
+            <div id="pop-up">
+                <h2>Prochaine Séance</h2>
+                <div id="infos_eleve">
+                    <p id="nom_eleve"></p>
+                    <p id="classe_eleve"></p>
+                    <p id="details_eleve"></p>
+                </div>
+                <div id="infos_ecole">
+                    
+                </div>
+                <button id="fermer-pop-up">✖</button>
+                <button id="accepter-soutien">Accepter</button>
+            </div>
+        </div>
+        
         
         <script>
             $(document).ready(function() { 
-                console.log("Appel AJAX Charger Infos Intervenant"); // affichage dans la console web
-                $.ajax ({
-                    url:"./ActionServlet",
-                    type:"POST",
-                    data: {todo: "ProfilIntervenant"},
-                    dataType:"json"
+                console.log("Appel AJAX Charger Infos Intervenant");
+                $.ajax({
+                    url: "./ActionServlet",
+                    type: "POST",
+                    data: { todo: "ProfilIntervenant" },
+                    dataType: "json"
                 })
-                . done (function(response) {
+                .done(function(response) {
+                    let idSoutien = null;
                     let monIntervenant = response;
                     let listeSoutienHtml = $("#liste_historique");
                     listeSoutienHtml.empty();
-                    
-                    for (const soutien of monIntervenant.historique) {
-                        let item = $("<li>");
 
-                        // Corps avec intervenant et matière et détails
+                    for (const soutien of monIntervenant.historique) {
+                        idSoutien = soutien.id;
+                        let item = $("<li>");
                         let corps = $("<div>").append(
                             $("<div>").text("Séance du " + soutien.dateDemande),
-                            $("<p>").text("Intervenant : " + soutien.intervenant.prenom + " " + soutien.intervenant.nom),
+                            $("<p>").text("Elève : " + soutien.eleve.prenom + " " + soutien.eleve.nom),
                             $("<p>").text("Matière : " + soutien.matiere.nom),
-                            $("<p>").text("Détails : " + soutien.details),
-                            $("<p>").text("Feedback : " + soutien.feedback)
+                            $("<p>").text("Détails : " + soutien.details)
                         );
+
+                        let feedbackElem;
+                        console.log(soutien);
+                        if (soutien.feedback && soutien.feedback.trim() !== "") {
+                            feedbackElem = $("<p>").text("Feedback : " + soutien.feedback);
+                            corps.append(feedbackElem);
+                        } else {
+                            const input = $("<input>").attr({
+                                type: "text",
+                                placeholder: "Entrer un feedback...",
+                                class: "champ-feedback"
+                            });
+                            const btn = $("<button>")
+                                .text("Valider")
+                                .addClass("btn-valider-feedback")
+                                .click(function() {
+                                    const nouveauFeedback = input.val();
+                                    if (nouveauFeedback.trim() !== "") {
+                                        $.ajax({
+                                            url: "./ActionServlet",
+                                            type: "POST",
+                                            data: { todo: "AjouterFeedback", feedback: nouveauFeedback, id : idSoutien },
+                                            
+                                        })
+                                        .done(function(response) {
+                                            input.remove();
+                                            btn.remove();
+                                            const pFeedback = $("<p>").text("Feedback : " + nouveauFeedback);
+                                            corps.append(pFeedback);
+                                        })
+                                        .fail(function(error) {
+                                            console.error("Erreur AJAX :", error);
+                                        });
+                                        
+                                    }
+                                });
+                            corps.append(input, btn);
+                        }
                         item.append(corps);
                         listeSoutienHtml.append(item);
                     }
-
-                }) 
-                . fail (function(error) { 
-                    $("#maListe").text("Erreur");
-                }) 
+                })
+                .fail(function(error) {
+                    $("#message").text("Erreur");
+                });
             });
+            
+            let ouvrir_demande = document.getElementById("bouton-seance");
+            ouvrir_demande.addEventListener("click", function () {
+                document.getElementById('container-pop-up').style.display = 'block';
+
+                $.ajax({
+                    url: './ActionServlet',
+                    type: 'POST',
+                    data: { todo: 'RecupererProchainSoutien' },
+                    datatype: 'json'
+                })
+                .done(function (response) {
+                    console.log("Réponse AJAX soutien :", response);
+                    let soutien = response;
+                    let infos_eleve = $("#infos_eleve"); 
+                    infos_eleve.empty();
+                    infos_eleve.append($("<p>").text("Elève : " + soutien.eleve.prenom + " " + soutien.eleve.nom));
+                    infos_eleve.append($("<p>").text("Classe : " + soutien.eleve.classe));
+                    infos_eleve.append($("<p>").text("Détails : " + soutien.details));
+                })
+                .fail(function (error) {
+                    console.error("Erreur AJAX :", error);
+                    alert("Erreur lors de la récupération du soutien.");
+                });
+            });
+            
+            let fermer_demande = document.getElementById("fermer-pop-up");
+            fermer_demande.addEventListener("click", function(){
+                document.getElementById('container-pop-up').style.display = 'none';
+            });
+
         </script>
+
     </body>
 </html>

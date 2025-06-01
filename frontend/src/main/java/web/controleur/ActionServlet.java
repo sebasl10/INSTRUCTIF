@@ -15,16 +15,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import metier.modele.Personne;
 import metier.service.Service;
+import web.modele.AjouterFeedback;
 import web.modele.Connexion;
 import web.modele.DemandeSoutien;
 import web.modele.Inscription;
+import web.modele.NoterSoutien;
 import web.modele.ProfilEleve;
 import web.modele.ProfilIntervenant;
+import web.modele.RecupererProchainSoutien;
 import web.modele.listerMatiere;
 import web.vue.ConnexionSerialisation;
 import web.vue.InscriptionSerialisation;
 import web.vue.ProfilEleveSerialisation;
 import web.vue.ProfilIntervenantSerialisation;
+import web.vue.RecupererProchainSoutienSerialisation;
 import web.vue.listerMatiereSerialisation;
 
 /**
@@ -63,7 +67,6 @@ public class ActionServlet extends HttpServlet {
                     listerMatiere liste = new listerMatiere(service);
                     liste.execute(request);
 
-
                     listerMatiereSerialisation matiereSerialisation = new listerMatiereSerialisation();
                     matiereSerialisation.appliquer(request, response);
                     break;
@@ -71,7 +74,6 @@ public class ActionServlet extends HttpServlet {
                 case "Inscription":
                     Inscription monInscription = new Inscription(service);
                     monInscription.execute(request);
-
 
                     InscriptionSerialisation inscriptionSerialisation = new InscriptionSerialisation();
                     inscriptionSerialisation.appliquer(request, response);
@@ -81,7 +83,6 @@ public class ActionServlet extends HttpServlet {
                     ProfilEleve monProfilEleve = new ProfilEleve(service);
                     monProfilEleve.execute(request);
 
-
                     ProfilEleveSerialisation profilEleveSerialisation = new ProfilEleveSerialisation();
                     profilEleveSerialisation.appliquer(request, response);
                     break;
@@ -89,7 +90,6 @@ public class ActionServlet extends HttpServlet {
                 case "ProfilIntervenant":
                     ProfilIntervenant monProfilIntervenant = new ProfilIntervenant(service);
                     monProfilIntervenant.execute(request);
-
 
                     ProfilIntervenantSerialisation profilIntervenantSerialisation = new ProfilIntervenantSerialisation();
                     profilIntervenantSerialisation.appliquer(request, response);
@@ -103,6 +103,26 @@ public class ActionServlet extends HttpServlet {
                     //ProfilEleveSerialisation profilEleveSerialisation = new ProfilEleveSerialisation();
                     //profilEleveSerialisation.appliquer(request, response);
                     break;
+                
+                case "NoterSoutien":
+                    NoterSoutien noterSoutien = new NoterSoutien(service);
+                    noterSoutien.execute(request);
+                break;
+                
+                case "AjouterFeedback":
+                    AjouterFeedback ajouterFeedback = new AjouterFeedback(service);
+                    ajouterFeedback.execute(request);
+                break;
+                
+                case "RecupererProchainSoutien":
+                    RecupererProchainSoutien monSoutien = new RecupererProchainSoutien(service);
+                    monSoutien.execute(request);
+
+
+                    RecupererProchainSoutienSerialisation recupererProchainSoutienSerialisation = new RecupererProchainSoutienSerialisation();
+                    recupererProchainSoutienSerialisation.appliquer(request, response);
+                break;
+
                     
                 default:
                     // Gérer le cas où `todo` ne correspond à aucune action connue

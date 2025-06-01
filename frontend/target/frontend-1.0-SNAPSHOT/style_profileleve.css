@@ -96,7 +96,7 @@ h1 {
     background-color: #00c3ff;
 }
 
-#pop-up-background{
+#pop-up-noter{
     display: none; 
     position: fixed; 
     top: 0; 
@@ -122,6 +122,11 @@ h1 {
     margin : 20px;
 }
 
+#note{
+    margin-bottom: 10px;
+    display: block;
+}
+
 #pop-up button{
     margin-top: 10px;
     padding: 8px 16px;
@@ -131,7 +136,23 @@ h1 {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-right: 40px;
+}
+
+.etoiles {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    font-size: 2.5rem;
+    color: #ccc;
+}
+
+.etoile {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.etoile:hover, .etoile.active {
+    color: #fcd703; /* Jaune doré */
 }
 
 /* Fond noir semi-transparent couvrant tout l'écran */
@@ -266,14 +287,15 @@ h1 {
 #bouton-ouvrir-popup {
     padding: 10px 20px;
     font-size: 1rem;
-    font-weight: 600;
-    background-color: #e0e0e0;
-    color: #333;
+    font-weight: bold;
+    background-color: #fff;
+    color: #4facfe;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-right: 40px
 }
 
 /* Effet au survol */
