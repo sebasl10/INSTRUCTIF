@@ -24,6 +24,7 @@ import web.modele.ObtenirURL;
 import web.modele.ProfilEleve;
 import web.modele.ProfilIntervenant;
 import web.modele.RecupererProchainSoutien;
+import web.modele.TerminerSoutien;
 import web.modele.listerMatiere;
 import web.vue.ConnexionSerialisation;
 import web.vue.InscriptionSerialisation;
@@ -135,6 +136,11 @@ public class ActionServlet extends HttpServlet {
                 case "AccepterSoutien":
                     AccepterSoutien monAcceptSoutien = new AccepterSoutien(service);
                     monAcceptSoutien.execute(request);
+
+                break;
+                case "TerminerSoutien":
+                    TerminerSoutien monTerminerSoutien = new TerminerSoutien(service);
+                    monTerminerSoutien.execute(request);
 
                 break;
                     
