@@ -104,39 +104,128 @@ h1 {
     cursor: pointer;
 }
 
-#container-pop-up{
+#fermer-pop-up:hover {
+    color: red;
+}
+
+#container-pop-up {
     display: none; 
     position: fixed; 
     top: 0; 
     left: 0; 
     width: 100%; 
     height: 100%;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5); /* fond semi-transparent */
+    z-index: 1001; /* au-dessus du bouton */
 }
 
 #pop-up {
     position: relative;
-    background: #fff;
-    padding: 20px;
-    width: 500px;
-    margin: 200px auto;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    background: #ffffff;
+    padding: 20px 30px;
+    width: 700px;
+    max-width: 90%;
+    margin: 150px auto;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    text-align: left;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+#pop-up h2 {
+    font-size: 1.8rem;
+    color: #4facfe;
     text-align: center;
+    margin-bottom: 20px;
 }
 
 
+#infos_eleve p,
+#infos_ecole p {
+    font-size: 1rem;
+    color: #333;
+    margin: 10px 0;
+}
+
+#accepter-soutien {
+    display: block;
+    margin: 0px auto 0 auto;
+    background-color: #4facfe;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/* Supprime l'effet de transition et de gradient */
+#accepter-soutien:hover {
+    background-color: #4facfe;
+}
+
+#ContainerURL {
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #4facfe;
+}
+
 #fermer-pop-up {
     position: absolute;
-    top: 10px;
+    top: 15px;
     right: 15px;
     background: none;
     border: none;
-    font-size: 20px;
+    font-size: 22px;
     cursor: pointer;
-    color: #333;
+    color: #999;
+    transition: color 0.3s ease;
 }
 
 #fermer-pop-up:hover {
     color: red;
 }
+
+#infos_eleve {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+#contenu-bas-popup {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Colonne gauche : infos école */
+#infos_ecole {
+    width: 48%;
+    background-color: #f7f7f7;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* Colonne droite : historique élève */
+#liste_historique_eleve {
+    width: 48%;
+    max-height: 400px; 
+    overflow-y: auto;   
+    background-color: #f7f7f7;
+    padding: 10px;
+    border-radius: 10px;
+    color: #333;
+}
+
+/* Pour les éléments dans l'historique */
+#liste_historique_eleve li {
+    list-style: none;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+

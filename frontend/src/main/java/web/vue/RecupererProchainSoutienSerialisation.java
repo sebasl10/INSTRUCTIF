@@ -6,8 +6,12 @@
 package web.vue;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import metier.modele.Eleve;
@@ -23,12 +27,28 @@ public class RecupererProchainSoutienSerialisation extends Serialisation {
     public void appliquer(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
         Soutien soutien = (Soutien) request.getAttribute("soutien");
+        List<Soutien> historique = (List<Soutien>) request.getAttribute("historiqueEleve");
         Gson gson = new Gson();
-        String json=gson.toJson(soutien);
-        System.out.println(json);
         PrintWriter out = response.getWriter();
-        out.write(json);
-        out.close();
+        
+        if (soutien == null) {
+            String json=gson.toJson(soutien);
+            System.out.println(json);
+            out.write(json);
+            out.close();
+        } 
+        else
+        {
+            JsonElement soutienJson = gson.toJsonTree(soutien);
+            JsonElement historiqueJson = gson.toJsonTree(historique);
+            JsonObject finalJson = soutienJson.getAsJsonObject();
+            finalJson.add("historique", historiqueJson);
+            System.out.println(finalJson);
+
+            out.write(gson.toJson(soutienJson));
+            out.close();
+        }
+        
     }
     
 }

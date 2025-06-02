@@ -30,13 +30,16 @@ and open the template in the editor.
         <div id="container-pop-up">
             <div id="pop-up">
                 <h2>Prochaine Séance</h2>
-                <div id="infos_eleve">
-                    <p id="nom_eleve"></p>
-                    <p id="classe_eleve"></p>
-                    <p id="details_eleve"></p>
-                </div>
-                <div id="infos_ecole">
-                    
+                
+                <div id="infos_eleve"></div>
+                
+                <div id="contenu-bas-popup">
+                    <div id="infos_ecole">
+                        <h2>Informations de l'école</h2>
+                    </div>
+                    <div id="liste_historique_eleve">
+                        <h2>Historique de l'élève</h2>
+                    </div>
                 </div>
                 <button id="fermer-pop-up">✖</button>
                 <button id="accepter-soutien">Accepter</button>
@@ -164,17 +167,46 @@ and open the template in the editor.
                     let soutien = response;
                     let infos_eleve = $("#infos_eleve"); 
                     infos_eleve.empty();
-                    if (soutien == null)
-                    {
+                    if (soutien == null) {
                         $("#ContainerURL").empty();
                         infos_eleve.append($("<p>").text("Vous n'avez pas de soutien en attente ;)"));
                         $("#accepter-soutien").hide();
+
+                        // Masquer les sections inutiles
+                        $("#infos_ecole").hide();
+                        $("#liste_historique_eleve").hide();
                     } else {
-                    $("#accepter-soutien").show();
-                    infos_eleve.append($("<p>").text("Elève : " + soutien.eleve.prenom + " " + soutien.eleve.nom));
-                    infos_eleve.append($("<p>").text("Classe : " + soutien.eleve.classe));
-                    infos_eleve.append($("<p>").text("Détails : " + soutien.details));
+                        $("#accepter-soutien").show();
+                        infos_eleve.append($("<p>").text("Elève : " + soutien.eleve.prenom + " " + soutien.eleve.nom));
+                        infos_eleve.append($("<p>").text("Classe : " + soutien.eleve.classe));
+                        infos_eleve.append($("<p>").text("Détails : " + soutien.details));
+
+                        // Afficher les sections seulement ici
+                        $("#infos_ecole").show();
+                        $("#liste_historique_eleve").show();
+
+                        infos_ecole = $("#infos_ecole");
+                        infos_ecole.append($("<p>").text("Nom : " + soutien.eleve.ecole.nom));
+                        infos_ecole.append($("<p>").text("UAI : " + soutien.eleve.ecole.UAI));
+                        infos_ecole.append($("<p>").text("IPS : " + soutien.eleve.ecole.IPS));
+                        infos_ecole.append($("<p>").text("Latitude : " + soutien.eleve.ecole.lat));
+                        infos_ecole.append($("<p>").text("Longitude : " + soutien.eleve.ecole.lng));
+
+                        let listeSoutienHtml = $("#liste_historique_eleve");
+                        for (const ancienSoutien of soutien.historique) {
+                            let item = $("<li>");
+                            let corps = $("<div>").append(
+                                $("<div>").text("Séance du " + ancienSoutien.dateFin),
+                                $("<p>").text("Id : " + ancienSoutien.id),
+                                $("<p>").text("Intervenant : " + ancienSoutien.intervenant.prenom + " " + ancienSoutien.intervenant.nom),
+                                $("<p>").text("Matière : " + ancienSoutien.matiere.nom),
+                                $("<p>").text("Détails : " + ancienSoutien.details)
+                            );
+                            item.append(corps);
+                            listeSoutienHtml.append(item);
+                        }
                     }
+
                 })
                 .fail(function (error) {
                     console.error("Erreur AJAX :", error);

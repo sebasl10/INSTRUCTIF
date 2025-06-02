@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import metier.modele.Eleve;
 import metier.modele.Intervenant;
 import metier.modele.Personne;
 import metier.modele.Soutien;
@@ -29,16 +30,24 @@ public class RecupererProchainSoutien extends Action{
     public void execute(HttpServletRequest request) {
         Intervenant monIntervenant = null;
         Soutien monSoutien = null;
+        Eleve eleve = null;
+        List<Soutien> historiqueEleve = null;
         try {
             HttpSession session = request.getSession();
             Personne maPersonne = service.rechercherPersonneParId((Long) session.getAttribute("id"));
             monIntervenant = service.rechercherIntervenant(maPersonne.getMail());
             monSoutien = service.recupererSoutienEnAttente(monIntervenant);
+            if (monSoutien != null) {
+                   eleve = monSoutien.getEleve();
+                   historiqueEleve = service.recupererHistoriqueEleve(eleve);
+            }
         } catch (Exception ex) {
             Logger.getLogger(listerMatiere.class.getName()).log(Level.SEVERE, null, ex);
         }
         request.setAttribute("monIntervenant", monIntervenant);
         request.setAttribute("soutien", monSoutien);
+        request.setAttribute("eleve", eleve);
+        request.setAttribute("historiqueEleve", historiqueEleve);
     }
 
 }

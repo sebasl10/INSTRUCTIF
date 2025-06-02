@@ -1,9 +1,11 @@
 web\vue\ProfilEleveSerialisation.class
+web\vue\ObtenirURLSerialisation.class
 web\controleur\ActionServlet.class
 web\modele\ProfilEleve.class
 web\modele\Action.class
 web\vue\InscriptionSerialisation.class
 web\modele\RecupererProchainSoutien.class
+web\modele\AccepterSoutien.class
 web\vue\Serialisation.class
 web\modele\ProfilIntervenant.class
 web\modele\Connexion.class
@@ -13,6 +15,8 @@ web\vue\ProfilIntervenantSerialisation.class
 web\modele\Inscription.class
 web\modele\AjouterFeedback.class
 web\modele\NoterSoutien.class
+web\modele\ObtenirURL.class
 web\modele\DemandeSoutien.class
 web\modele\listerMatiere.class
 web\vue\RecupererProchainSoutienSerialisation.class
+web\modele\TerminerSoutien.class
