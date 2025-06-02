@@ -79,7 +79,7 @@
         
         <script>
             function obtenirURL(balise) {
-                console.log("Appel AJAX Charger URL"); // affichage dans la console web
+                console.log("Appel AJAX Charger URL");
                 $.ajax({
                     url: "./ActionServlet",
                     type: "POST",
@@ -87,7 +87,7 @@
                     dataType: "json"
                 })
                 .done(function(response) {
-                    $(balise).text(response);
+                    $(balise).html('<a href="' + response + '">Lancer la visio</a>');
                 })
                 .fail(function(error) {
                     console.error("Erreur lors de l'obtention de l'URL :", error);
