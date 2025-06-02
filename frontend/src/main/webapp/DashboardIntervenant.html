@@ -40,14 +40,14 @@ and open the template in the editor.
                 </div>
                 <button id="fermer-pop-up">✖</button>
                 <button id="accepter-soutien">Accepter</button>
-                <p id="ContainerURL">URL</p>
+                <p id="ContainerURL"></p>
             </div>
         </div>
         
         
         <script>
             function obtenirURL(balise) {
-                console.log("Appel AJAX Charger URL"); // affichage dans la console web
+                console.log("Appel AJAX Charger URL"); 
                 $.ajax({
                     url: "./ActionServlet",
                     type: "POST",
@@ -55,7 +55,14 @@ and open the template in the editor.
                     dataType: "json"
                 })
                 .done(function(response) {
-                    $(balise).text(response);
+                    const lien = $('<a>')
+                    .attr("href", response)
+                    .text("Rejoindre la visio")
+                    .on("click", function() {
+                        sessionStorage.setItem("retourVisio", "true");
+                    });
+                    console.log("RetourVISIO==TRUE");
+                    $(balise).append(lien);
                 })
                 .fail(function(error) {
                     console.error("Erreur lors de l'obtention de l'URL :", error);
@@ -64,6 +71,15 @@ and open the template in the editor.
             }
             
             $(document).ready(function() { 
+                if (sessionStorage.getItem("retourVisio") === "true") {
+                    console.log("Appel AJAX Terminer Soutien");
+                    $.ajax({
+                        url: "./ActionServlet",
+                        type: "POST",
+                        data: { todo: "TerminerSoutien" },
+                        dataType: "json"
+                    }).done(function(response){}).fail(function(error){});
+                }
                 console.log("Appel AJAX Charger Infos Intervenant");
                 $.ajax({
                     url: "./ActionServlet",
@@ -148,9 +164,17 @@ and open the template in the editor.
                     let soutien = response;
                     let infos_eleve = $("#infos_eleve"); 
                     infos_eleve.empty();
+                    if (soutien == null)
+                    {
+                        $("#ContainerURL").empty();
+                        infos_eleve.append($("<p>").text("Vous n'avez pas de soutien en attente ;)"));
+                        $("#accepter-soutien").hide();
+                    } else {
+                    $("#accepter-soutien").show();
                     infos_eleve.append($("<p>").text("Elève : " + soutien.eleve.prenom + " " + soutien.eleve.nom));
                     infos_eleve.append($("<p>").text("Classe : " + soutien.eleve.classe));
                     infos_eleve.append($("<p>").text("Détails : " + soutien.details));
+                    }
                 })
                 .fail(function (error) {
                     console.error("Erreur AJAX :", error);
