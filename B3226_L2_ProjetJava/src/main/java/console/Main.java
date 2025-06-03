@@ -42,7 +42,7 @@ public class Main {
         System.out.println("TEST: Inscription eleve");
         Service service = new Service();
 
-        Eleve e2 = new Eleve("Test","TEST", "test@test.com", "abcd", new Date(1234546), 6);
+        Eleve e2 = new Eleve("Arthur","DUPONT", "Arthur@DUPONT.com", "password", new Date(1234546), 6);
         
         service.inscrireEleve(e2, "0692155T");
         
@@ -58,7 +58,7 @@ public class Main {
         
         System.out.println( "wrong password test:" );
         try{
-            personne = service.authentification("test@test.com", "abcdefg");
+            personne = service.authentification("Arthur@DUPONT.com", "abcdefg");
             System.out.println("ok");
         } catch (Exception ex){
             System.out.println( "invalid");
@@ -67,7 +67,7 @@ public class Main {
         
         System.out.println( "good password test:" );
         try{
-            personne = service.authentification("test@test.com", "abcd");
+            personne = service.authentification("Arthur@DUPONT.com", "password");
             System.out.println("ok");
         } catch (Exception ex){
             System.out.println( "invalid");
@@ -102,7 +102,7 @@ public class Main {
             JpaUtil.creerContextePersistance();
             JpaUtil.ouvrirTransaction();
             
-            eleve = new Eleve("Test","TEST", "test2@test.com", "abcd", new Date(1234546), 6);
+            eleve = new Eleve("Pierre","BERTRAND", "Pierre@BERTRAND.com", "mdp", new Date(1234546), 6);
             Ecole uneEcole = new Ecole("67UCBSDUCB", "INSA Lyon", "IPS", 45.7, 4.8);
             ecoleDao.create(uneEcole);
             eleveDao.create(eleve);
@@ -111,13 +111,19 @@ public class Main {
             //service.inscrireEleve(eleve, "0692155T");
             enseignant = new IntervenantEnseignant("college", "010203040506", 3, 4, "apinto", "PINTO", "Alfred", "test@email.com", "password1234");
             enseignantDao.create(enseignant);
-            enseignant = new IntervenantEnseignant("xdthe", "653368386", 1, 2, "cfhcfjh", "xdgxdrg", "Alfxjcyjfred", "vgyv@email.com", "cftctf");
+            enseignant = new IntervenantEnseignant("xdthe", "653368386", 1, 2, "sprofesseur", "PROFESSEUR", "Sylvie", "Sylvie@PROFESSEUR.com", "pword");
             enseignantDao.create(enseignant);
-            enseignant = new IntervenantEnseignant("dxthgege", "38383643", 5, 6, "guyjvgjy", "xdrxthc", "xtdhxth", "vucrterxdrt@email.com", "xrdfcf");
+            enseignant = new IntervenantEnseignant("dxthgege", "38383643", 5, 6, "mENSEIGNANT", "ENSEIGNANT", "Marc", "Marc@ENSEIGNANT.com", "wordp");
             enseignantDao.create(enseignant);
             matiere = new Matiere("maths");
             matiereDao.create(matiere);
             matiere = new Matiere("physique");
+            matiereDao.create(matiere);
+            matiere = new Matiere("chimie");
+            matiereDao.create(matiere);
+            matiere = new Matiere("histoire");
+            matiereDao.create(matiere);
+            matiere = new Matiere("français");
             matiereDao.create(matiere);
             
             JpaUtil.validerTransaction();
@@ -133,12 +139,12 @@ public class Main {
         }
         
         // Creation du soutien
-        soutien1 = service.demanderSoutien(matiere, "je galère", eleve);
+        soutien1 = service.demanderSoutien(matiere, "je n'arrive pas à apprendre le cours", eleve);
 
         System.out.println(soutien1.getUrl());
         
         // Verification du choix de l'intervenant
-        soutien2 = service.demanderSoutien(matiere, "je galère2", eleve);
+        soutien2 = service.demanderSoutien(matiere, "mon devoir maison est trop compliqué", eleve);
 
         System.out.println(soutien2.getUrl());
         System.out.println(soutien2.getIntervenant().getUsername());
@@ -163,7 +169,7 @@ public class Main {
         System.out.println(soutien2.getNote());
         
         // Intervenant ajoute un feedback
-        service.ajouterFeedback(soutien2, "aaaaaaa bbbbbbb ccccc");
+        service.ajouterFeedback(soutien2, "A besoin de plus s'appliquer en cours");
         System.out.println(soutien2.getFeedback());
     }
     
@@ -171,7 +177,7 @@ public class Main {
         System.out.println("TEST: Trouver eleve");
         
         Service service = new Service();
-        Eleve eleve = service.rechercherEleve("test@test.com");
+        Eleve eleve = service.rechercherEleve("Pierre@BERTRAND.com");
             
         
         System.out.println(eleve.getNom());
@@ -191,14 +197,14 @@ public class Main {
         System.out.println("TEST: Historique");
         
         Service service = new Service();
-        Intervenant intervenant = service.rechercherIntervenant("test@email.com");
+        Intervenant intervenant = service.rechercherIntervenant("Marc@ENSEIGNANT.com");
         List<Soutien> soutiens = service.recupererHistoriqueIntervenant(intervenant);
         
         for(Soutien soutien : soutiens){
             System.out.println(soutien.getEleve().getNom());
         }
 
-        Eleve eleve = service.rechercherEleve("test@test.com");
+        Eleve eleve = service.rechercherEleve("Pierre@BERTRAND.com");
         List<Soutien> soutiensE = service.recupererHistoriqueEleve(eleve);
         for(Soutien soutienE : soutiensE){
             System.out.println(soutienE.getEleve().getNom());
