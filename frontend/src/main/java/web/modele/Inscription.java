@@ -45,7 +45,7 @@ public class Inscription extends Action{
         System.out.println(password);
         Eleve monEleve = null;
         try {
-            Eleve testEleve = new Eleve(prenom, nom, email, password, date, classe);
+            Eleve testEleve = new Eleve(nom, prenom, email, password, date, classe);
             if (service.inscrireEleve(testEleve, codeEtablissement))
                     {
                         monEleve = testEleve;
