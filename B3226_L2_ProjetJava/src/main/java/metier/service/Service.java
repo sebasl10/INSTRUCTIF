@@ -371,7 +371,7 @@ public class Service {
         
         String adresseEtablissement = nom + ", " + nomCommune;
         LatLng coordsEtablissement = GeoNetApi.getLatLng(adresseEtablissement);
-        
+        System.out.println("coordonnees :"+coordsEtablissement);
         if(coordsEtablissement == null){
             System.out.println("Erreur, GeoNetApi n'as pas trouve de coordonnees.");
             ecole = new Ecole(uai, nom, ips, 0, 0);
