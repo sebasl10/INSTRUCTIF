@@ -5,7 +5,10 @@
  */
 package dao;
 
+import java.util.List;
+import javax.persistence.TypedQuery;
 import metier.modele.Ecole;
+import metier.modele.Personne;
 
 /**
  *
@@ -18,5 +21,13 @@ public class EcoleDao {
     
     public Ecole findByUAI (String ecoleUAI){
         return JpaUtil.obtenirContextePersistance().find(Ecole.class, ecoleUAI);
+    }
+    
+    public List<Ecole> recupererEcoles() {
+        TypedQuery<Ecole> query = JpaUtil.obtenirContextePersistance()
+                .createQuery("SELECT e FROM Ecole e", Ecole.class);
+
+        List<Ecole> result = query.getResultList();
+        return result.isEmpty() ? null : result;
     }
 }
