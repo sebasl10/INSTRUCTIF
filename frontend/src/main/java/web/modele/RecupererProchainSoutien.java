@@ -46,6 +46,7 @@ public class RecupererProchainSoutien extends Action{
         }
         request.setAttribute("monIntervenant", monIntervenant);
         request.setAttribute("soutien", monSoutien);
+        request.setAttribute("url", monSoutien.getUrl());
         request.setAttribute("eleve", eleve);
         request.setAttribute("historiqueEleve", historiqueEleve);
     }
