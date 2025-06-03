@@ -13,13 +13,18 @@ and open the template in the editor.
         <link rel="stylesheet" href="style_dashboardintervenant.css">
     </head>
     <body>
-        <h1>Dashboard Intervenant</h1>
-        <button id="bouton-seance">🔔</button>
-
+        <div class="top-bar">
+            <h1>Dashboard Intervenant</h1>
+            <div class="actions">
+              <button id="bouton-seance">🔔</button>
+              <button id="deconnexion">Déconnexion</button>
+            </div>
+          </div>
+       
         <div class="container">
             <div id="statistiques">
                 <h2>Statistiques</h2>
-                <div id="map" style="height: 600px; width: 80%; margin: 0 auto;"></div>
+                <div id="map" style="height: 600px; width: 90%; margin: auto; margin-top: 50px;"></div>
             </div>
             <div id="historique">
                 <h2>Historique des soutiens</h2>
@@ -115,7 +120,7 @@ and open the template in the editor.
                         idSoutien = soutien.id;
                         let item = $("<li>");
                         let corps = $("<div>").append(
-                            $("<div>").text("Séance du " + soutien.dateDemande),
+                            $("<div>").text("Séance du " + soutien.dateFin),
                             $("<p>").text("Elève : " + soutien.eleve.prenom + " " + soutien.eleve.nom),
                             $("<p>").text("Matière : " + soutien.matiere.nom),
                             $("<p>").text("Détails : " + soutien.details)
@@ -241,6 +246,21 @@ and open the template in the editor.
                 obtenirURL("#ContainerURL");
                 $("#accepter-soutien").hide();
             });
+            
+            $("#deconnexion").click(function() {
+                $.ajax({
+                    url: './ActionServlet',
+                    type: 'POST',
+                    data: { todo: 'Deconnexion' }
+                })
+                .done(function(response) {
+                    window.location.href = "index.html";
+                })
+                .fail(function(error) {
+                    console.error("Erreur lors de la déconnexion :", error);
+                });
+            });
+
 
         </script>
         <script type="text/javascript">
