@@ -17,6 +17,7 @@ import metier.service.Service;
 import web.modele.AccepterSoutien;
 import web.modele.AjouterFeedback;
 import web.modele.Connexion;
+import web.modele.Deconnexion;
 import web.modele.DemandeSoutien;
 import web.modele.Inscription;
 import web.modele.NoterSoutien;
@@ -145,6 +146,7 @@ public class ActionServlet extends HttpServlet {
                     monTerminerSoutien.execute(request);
 
                 break;
+                
                 case "RecupererEcole":
                     RecupererEcole ecoles = new RecupererEcole(service);
                     ecoles.execute(request);
@@ -152,6 +154,11 @@ public class ActionServlet extends HttpServlet {
 
                     RecupererEcoleSerialisation ecolesSerialisation = new RecupererEcoleSerialisation();
                     ecolesSerialisation.appliquer(request, response);
+                break;
+                
+                case "Deconnexion":
+                    Deconnexion deconnexion = new Deconnexion(service);
+                    deconnexion.execute(request);
                 break;
                     
                 default:
