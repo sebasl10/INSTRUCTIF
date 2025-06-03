@@ -109,7 +109,7 @@ public class Main {
             eleve.setEcole(uneEcole);
             
             //service.inscrireEleve(eleve, "0692155T");
-            enseignant = new IntervenantEnseignant("college", "010203040506", 5, 6, "apinto", "PINTO", "Alfred", "test@email.com", "password1234");
+            enseignant = new IntervenantEnseignant("college", "010203040506", 3, 4, "apinto", "PINTO", "Alfred", "test@email.com", "password1234");
             enseignantDao.create(enseignant);
             enseignant = new IntervenantEnseignant("xdthe", "653368386", 1, 2, "cfhcfjh", "xdgxdrg", "Alfxjcyjfred", "vgyv@email.com", "cftctf");
             enseignantDao.create(enseignant);
