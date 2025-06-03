@@ -53,7 +53,7 @@ and open the template in the editor.
         
         
         <script>
-            function obtenirURL(balise) {
+            function obtenirURL() {
                 console.log("Appel AJAX Charger URL"); 
                 $.ajax({
                     url: "./ActionServlet",
@@ -187,7 +187,7 @@ and open the template in the editor.
                     let soutien = response;
                     let infos_eleve = $("#infos_eleve"); 
                     infos_eleve.empty();
-                    if (soutien == null) {
+                    if (!soutien || $.isEmptyObject(soutien)) {
                         $("#ContainerURL").empty();
                         infos_eleve.append($("<p>").text("Vous n'avez pas de soutien en attente ;)"));
                         $("#accepter-soutien").hide();
@@ -229,6 +229,29 @@ and open the template in the editor.
                             item.append(corps);
                             listeSoutienHtml.append(item);
                         }
+                      $("#accepter-soutien").on("click",function(){
+                          console.log(soutien.url);
+                          const lien = $('<a>')                          
+                        .attr("href", soutien.url)
+                        .text("Rejoindre la visio")
+                        .on("click", function() {
+                            console.log("RetourVISIO==TRUE");
+                            $("#ContainerURL").empty();
+                            $("#ContainerURL").append(lien);
+                            $.ajax({
+                                url: './ActionServlet',
+                                type: 'POST',
+                                data: { todo: 'AccepterSoutien' },
+                                datatype: 'json'
+                            }).done(function (){
+                            }).fail(function (error) {
+                                console.error("Erreur AJAX :", error);
+                            });
+                            sessionStorage.setItem("retourVisio", "true");
+                            document.getElementById('container-pop-up').style.display = 'none';});
+                            $("#ContainerURL").empty().append(lien);
+
+                        });                 
                     }
 
                 })
@@ -237,15 +260,14 @@ and open the template in the editor.
                     alert("Erreur lors de la récupération du soutien.");
                 });
             });
-            
             let fermer_demande = document.getElementById("fermer-pop-up");
             fermer_demande.addEventListener("click", function(){
                 document.getElementById('container-pop-up').style.display = 'none';
             });
-            $("#accepter-soutien").click(function(){
+            /*$("#accepter-soutien").click(function(){
                 obtenirURL("#ContainerURL");
                 $("#accepter-soutien").hide();
-            });
+            });*/
             
             $("#deconnexion").click(function() {
                 $.ajax({
