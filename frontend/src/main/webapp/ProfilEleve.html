@@ -7,11 +7,14 @@
         <link rel="stylesheet" href="style_profileleve.css">
     </head>
     <body>
-
-        <h1>Profil Elève</h1>
-        <div class="bouton-container">
-            <button id="bouton-ouvrir-popup">Demander Soutien</button>
-         </div>        
+        <div class="top-bar">
+            <h1>Profil Elève</h1>
+            <div class="actions-droites">
+                <button id="bouton-ouvrir-popup">Demander un soutien</button>
+                <button id="deconnexion">Déconnexion</button>
+            </div>
+        </div>
+               
         <div class="container">
             <div class="profil-eleve">
                 <h2>Informations personnelles</h2>
@@ -279,7 +282,21 @@
                 console.error("Erreur AJAX :", error);
                 alert("Erreur lors de l'envoi de la note.");
             });
-        });
+            
+            });
+            $("#deconnexion").click(function() {
+                $.ajax({
+                    url: './ActionServlet',
+                    type: 'POST',
+                    data: { todo: 'Deconnexion' }
+                })
+                .done(function(response) {
+                    window.location.href = "index.html";
+                })
+                .fail(function(error) {
+                    console.error("Erreur lors de la déconnexion :", error);
+                });
+            });
         </script>
 
         <div style="height: 100px;"></div>
