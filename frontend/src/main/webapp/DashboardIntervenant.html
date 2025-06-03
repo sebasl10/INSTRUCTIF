@@ -34,9 +34,7 @@ and open the template in the editor.
                 <div id="infos_eleve"></div>
                 
                 <div id="contenu-bas-popup">
-                    <div id="infos_ecole">
-                        <h2>Informations de l'école</h2>
-                    </div>
+                    <div id="infos_ecole"></div>
                     <div id="liste_historique_eleve">
                         <h2>Historique de l'élève</h2>
                     </div>
@@ -62,9 +60,21 @@ and open the template in the editor.
                     .attr("href", response)
                     .text("Rejoindre la visio")
                     .on("click", function() {
+                        $.ajax({
+                            url: './ActionServlet',
+                            type: 'POST',
+                            data: { todo: 'AccepterSoutien' },
+                            datatype: 'json'
+                        }).done(function (){
+                        }).fail(function (error) {
+                            console.error("Erreur AJAX :", error);
+                        });
                         sessionStorage.setItem("retourVisio", "true");
+                        document.getElementById('container-pop-up').style.display = 'none';
+
                     });
                     console.log("RetourVISIO==TRUE");
+                    $(balise).empty();
                     $(balise).append(lien);
                 })
                 .fail(function(error) {
@@ -73,7 +83,7 @@ and open the template in the editor.
                 });
             }
             
-            $(document).ready(function() { 
+            $(window).on("pageshow", function(event) { 
                 if (sessionStorage.getItem("retourVisio") === "true") {
                     console.log("Appel AJAX Terminer Soutien");
                     $.ajax({
@@ -81,7 +91,11 @@ and open the template in the editor.
                         type: "POST",
                         data: { todo: "TerminerSoutien" },
                         dataType: "json"
-                    }).done(function(response){}).fail(function(error){});
+                    }).done(function(response){
+                        sessionStorage.setItem("retourVisio", "false");
+                        ("")
+                    }).fail(function(error){});
+                    
                 }
                 console.log("Appel AJAX Charger Infos Intervenant");
                 $.ajax({
@@ -126,7 +140,7 @@ and open the template in the editor.
                                         $.ajax({
                                             url: "./ActionServlet",
                                             type: "POST",
-                                            data: { todo: "AjouterFeedback", feedback: nouveauFeedback, id : idSoutien },
+                                            data: { todo: "AjouterFeedback", feedback: nouveauFeedback, id : soutien.id },
                                             
                                         })
                                         .done(function(response) {
@@ -186,6 +200,8 @@ and open the template in the editor.
                         $("#liste_historique_eleve").show();
 
                         infos_ecole = $("#infos_ecole");
+                        infos_ecole.empty();
+                        infos_ecole.append($("<h2>").text("Informations de l'école"));
                         infos_ecole.append($("<p>").text("Nom : " + soutien.eleve.ecole.nom));
                         infos_ecole.append($("<p>").text("UAI : " + soutien.eleve.ecole.UAI));
                         infos_ecole.append($("<p>").text("IPS : " + soutien.eleve.ecole.IPS));
@@ -193,6 +209,8 @@ and open the template in the editor.
                         infos_ecole.append($("<p>").text("Longitude : " + soutien.eleve.ecole.lng));
 
                         let listeSoutienHtml = $("#liste_historique_eleve");
+                        listeSoutienHtml.empty();
+                        listeSoutienHtml.append($("<h2>").text("Historique de l'élève"));
                         for (const ancienSoutien of soutien.historique) {
                             let item = $("<li>");
                             let corps = $("<div>").append(
@@ -219,16 +237,8 @@ and open the template in the editor.
                 document.getElementById('container-pop-up').style.display = 'none';
             });
             $("#accepter-soutien").click(function(){
-                $.ajax({
-                    url: './ActionServlet',
-                    type: 'POST',
-                    data: { todo: 'AccepterSoutien' },
-                    datatype: 'json'
-                }).done(function (){
-                    obtenirURL("#ContainerURL");
-                }).fail(function (error) {
-                    console.error("Erreur AJAX :", error);
-                });
+                obtenirURL("#ContainerURL");
+                $("#accepter-soutien").hide();
             });
 
         </script>
