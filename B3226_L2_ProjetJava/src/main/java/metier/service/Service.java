@@ -510,6 +510,25 @@ public class Service {
             
         return matiere;
     }
+    
+    public List<Ecole> recupererEcoles(){
+        EcoleDao ecoleDao = new EcoleDao();
+        List<Ecole> ecoles = null;
+        
+        try{
+            JpaUtil.creerContextePersistance();
+            ecoles = ecoleDao.recupererEcoles();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JpaUtil.annulerTransaction();
+            System.out.println("Erreur");
+
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+            
+        return ecoles;
+    }
 }
 
 
