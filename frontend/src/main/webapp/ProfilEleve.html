@@ -88,15 +88,19 @@
                 })
                 .done(function(response) {
                     $(balise).html('<a href="' + response + '">Lancer la visio</a>');
+                    $(balise).on("click",function() {sessionStorage.setItem("retourVisio", "true");} );
                 })
                 .fail(function(error) {
                     console.error("Erreur lors de l'obtention de l'URL :", error);
                     $(balise).text("Erreur lors de la récupération de l'URL");
                 });
             }
-
             
-            $(document).ready(function() { 
+            $(window).on("pageshow",function() {
+                if (sessionStorage.getItem("retourVisio")=="true")
+                {   location.reload();
+                    sessionStorage.setItem("retourVisio","false");
+                }
                 console.log("Appel AJAX Charger Infos Eleve"); // affichage dans la console web
                 $.ajax ({
                     url:"./ActionServlet",
@@ -178,6 +182,7 @@
                                 $("#valider-popup").hide();
                                 obtenirURL("#baliseURL");
                             } else {
+                                $("#detail").val('');
                                 messageElt.textContent = "";
                                 boutonValider.disabled = false; // réactiver le bouton
 
@@ -268,7 +273,7 @@
             })
             .done(function () {
                 document.getElementById('pop-up-noter').style.display = 'none';
-                location.reload(); // ou mets à jour dynamiquement l'historique si tu veux
+                location.reload(); 
             })
             .fail(function (error) {
                 console.error("Erreur AJAX :", error);
