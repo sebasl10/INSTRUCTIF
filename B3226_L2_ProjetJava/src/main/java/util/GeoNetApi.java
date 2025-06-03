@@ -51,7 +51,7 @@ import com.google.maps.model.TravelMode;
 
 public class GeoNetApi {
 
-    private static final String MA_CLE_GOOGLE_API = "AIzaSyDMqXyR2llzWs1F_K147AwbfA89XouummE"; // (DASI-0x04)
+    private static final String MA_CLE_GOOGLE_API = "AIzaSyBQl39F85GBKydbYSzVaIaAQzz4UXLJZ5E"; // (DASI-0x04)
 
     private static final GeoApiContext MON_CONTEXTE_GEOAPI = new GeoApiContext.Builder().apiKey(MA_CLE_GOOGLE_API).build();
 
@@ -62,6 +62,7 @@ public class GeoNetApi {
             return results[0].geometry.location;
 
         } catch (Exception ex) {
+            ex.printStackTrace();
             return null;
         }
     }
