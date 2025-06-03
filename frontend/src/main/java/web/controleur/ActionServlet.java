@@ -23,6 +23,7 @@ import web.modele.NoterSoutien;
 import web.modele.ObtenirURL;
 import web.modele.ProfilEleve;
 import web.modele.ProfilIntervenant;
+import web.modele.RecupererEcole;
 import web.modele.RecupererProchainSoutien;
 import web.modele.TerminerSoutien;
 import web.modele.listerMatiere;
@@ -31,6 +32,7 @@ import web.vue.InscriptionSerialisation;
 import web.vue.ObtenirURLSerialisation;
 import web.vue.ProfilEleveSerialisation;
 import web.vue.ProfilIntervenantSerialisation;
+import web.vue.RecupererEcoleSerialisation;
 import web.vue.RecupererProchainSoutienSerialisation;
 import web.vue.listerMatiereSerialisation;
 
@@ -142,6 +144,14 @@ public class ActionServlet extends HttpServlet {
                     TerminerSoutien monTerminerSoutien = new TerminerSoutien(service);
                     monTerminerSoutien.execute(request);
 
+                break;
+                case "RecupererEcole":
+                    RecupererEcole ecoles = new RecupererEcole(service);
+                    ecoles.execute(request);
+
+
+                    RecupererEcoleSerialisation ecolesSerialisation = new RecupererEcoleSerialisation();
+                    ecolesSerialisation.appliquer(request, response);
                 break;
                     
                 default:
