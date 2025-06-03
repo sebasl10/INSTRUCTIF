@@ -103,7 +103,7 @@ public class Main {
             JpaUtil.ouvrirTransaction();
             
             eleve = new Eleve("Test","TEST", "test2@test.com", "abcd", new Date(1234546), 6);
-            Ecole uneEcole = new Ecole("67UCBSDUCB", "INSA Lyon", "IPS", 45.7, 56.8);
+            Ecole uneEcole = new Ecole("67UCBSDUCB", "INSA Lyon", "IPS", 45.7, 4.8);
             ecoleDao.create(uneEcole);
             eleveDao.create(eleve);
             eleve.setEcole(uneEcole);
