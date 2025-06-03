@@ -10,6 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import metier.modele.Matiere;
+import metier.modele.Soutien;
+import metier.modele.Soutien.Etat;
 import metier.service.Service;
 
 /**
@@ -31,11 +33,19 @@ public class listerMatiere extends Action{
         Logger.getLogger(listerMatiere.class.getName()).log(Level.SEVERE, null, ex);
     }
     request.setAttribute("listeMatiere", listeMatiere);
-
+    
+    Boolean dejaSoutien = false;
     // Récupérer l'attribut 'dejaSoutien' dans la session
-    Boolean dejaSoutien = (Boolean) request.getSession().getAttribute("dejaSoutien");
-    if (dejaSoutien == null) {
-        dejaSoutien = false; // par défaut false si absent
+    Long soutienId = (Long) request.getSession().getAttribute("soutienId");
+    if (soutienId!=null)
+    {    
+        Soutien monSoutien = (Soutien) service.trouverSoutien(soutienId);
+    
+        if (monSoutien.getEtat() == Etat.TERMINE || monSoutien == null) {
+            dejaSoutien = false; // par défaut false si absent
+        } else {
+            dejaSoutien= true;
+        }
     }
     request.setAttribute("dejaSoutien", dejaSoutien);
 }
