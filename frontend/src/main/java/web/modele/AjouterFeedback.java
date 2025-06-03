@@ -8,10 +8,6 @@ package web.modele;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import metier.modele.Eleve;
-import metier.modele.Matiere;
-import metier.modele.Personne;
 import metier.modele.Soutien;
 import metier.service.Service;
 
