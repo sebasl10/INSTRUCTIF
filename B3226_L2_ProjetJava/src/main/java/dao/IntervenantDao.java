@@ -55,9 +55,10 @@ public class IntervenantDao {
     
     public Soutien soutienAttente(Intervenant intervenant){
         Query query = JpaUtil.obtenirContextePersistance()
-                .createQuery("SELECT s FROM Soutien s WHERE s.intervenant = :inter AND s.etat = :etat", Soutien.class);
+                .createQuery("SELECT s FROM Soutien s WHERE s.intervenant = :inter AND (s.etat = :etat OR s.etat = :etat2)", Soutien.class);
         query.setParameter("inter", intervenant);
         query.setParameter("etat", Etat.ATTENTE);
+        query.setParameter("etat2", Etat.EN_COURS);
 
         List<Soutien> result = query.getResultList();
         return result.isEmpty() ? null : result.get(0);
@@ -66,8 +67,9 @@ public class IntervenantDao {
     public List<Soutien> findSoutiens (Intervenant intervenant){
         Query query = JpaUtil.obtenirContextePersistance()
                 .createQuery("SELECT s FROM Soutien s "
-                        + "WHERE s.intervenant = :inter");
+                        + "WHERE s.intervenant = :inter AND s.etat = :etat");
         query.setParameter("inter", intervenant);
+        query.setParameter("etat",Etat.TERMINE);
 
         List<Soutien> result = query.getResultList();
         return result;
