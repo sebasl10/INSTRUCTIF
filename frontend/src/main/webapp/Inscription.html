@@ -14,13 +14,15 @@ and open the template in the editor.
     </head>
     <body>
         <h1>Inscription élève</h1>
+                    <p id ="inscriptionInvalide"></p>
+
         <form id="formulaire">
-            <input type="text" name = "nom" placeholder="Nom">
-            <input type="text" name = "prenom" placeholder="Prenom">
-            <input type="email" name = "email" placeholder="Adresse e-mail">
-            <input type="password" name = "password" placeholder="Mot de passe">
-            <input type="date" name="date">
-            <input type="text" name = "codeEtablissement" placeholder="Code d'établissement" value = "0692155T">
+            <input type="text" id="nom" name = "nom" placeholder="Nom">
+            <input type="text" id="preno" name = "prenom" placeholder="Prenom">
+            <input type="email" id="mail" name = "email" placeholder="Adresse e-mail">
+            <input type="password" id="mdp" name = "password" placeholder="Mot de passe">
+            <input type="date" id="dat" name="date">
+            <input type="text" id="codeEta" name = "codeEtablissement" placeholder="Code d'établissement" value = "0692155T">
             
             <select id="classe" name="classe">
                 <option value="6">6ème</option>
@@ -32,13 +34,53 @@ and open the template in the editor.
                 <option value="0">Terminal</option>
             </select>
             
-            <input type="submit" value="Suivant">
+            <input type="submit" id = "submit1" value="Suivant">
+            <input type="submit" id = "submit2" value="Suivant">
+            <input type="submit" id = "retour1" value="retour">
+            <input type="submit" id = "retour2" value="retour">
             
         </form>
         
         <script>
             $(document).ready(function() { 
-                $("#formulaire").on("submit",function(event){
+                $("#dat").hide();
+                $("#classe").hide();
+                $("#codeEta").hide();
+                $("#submit2").hide();
+                $("#retour2").hide();
+                $("#submit1").on("click",function() {
+                    event.preventDefault();
+                    $("#nom").hide();
+                    $("#preno").hide();
+                    $("#mail").hide();
+                    $("#mdp").hide();
+                    $("#dat").show();
+                    $("#classe").show();
+                    $("#codeEta").show();
+                    $("#submit1").hide();
+                    $("#submit2").show();
+                    $("#retour1").hide();
+                    $("#retour2").show();
+                    $("#inscriptionInvalide").empty();
+                    console.log($("#mail").val());
+                });
+                $("#retour1").on("click",function() {
+                    event.preventDefault();
+                    window.location.href="http://localhost:8080/frontend/";
+                });
+                $("#retour2").on("click",function() {
+                    event.preventDefault();
+                    $("#dat").hide();
+                    $("#classe").hide();
+                    $("#codeEta").hide();
+                    $("#sumbit2").hide();
+                    $("#retour2").hide();
+                    $("#nom").show();
+                    $("#preno").show();
+                    $("#mail").show();
+                    $("#mdp").show();
+                    });
+                $("#submit2").on("click",function(){
                     event.preventDefault();
                     console.log("Appel AJAX"); // affichage dans la console web
                      let email = $("input[name='email']").val();
@@ -48,7 +90,8 @@ and open the template in the editor.
                      let date = $("input[name='date']").val();
                      let codeEtablissement = $("input[name='codeEtablissement']").val();
                     let classe = $("select[name='classe']").val();                     
-                    
+                    if (email.trim() !== "" && password.trim() !== "" && nom.trim() !== "" && prenom.trim() !== "" && date.trim() !== "" && codeEtablissement.trim() !== "" && classe.trim() !== "")
+                    {
                     $.ajax ({
                         url:"./ActionServlet",
                         type:"POST",
@@ -70,8 +113,22 @@ and open the template in the editor.
                     }) 
                     . fail (function(error) { 
                         $("#monEleve").text("Erreur de connexion");
-                    }) 
-                
+                    });
+                } else {
+                    event.preventDefault();
+                    $("#dat").hide();
+                    $("#classe").hide();
+                    $("#codeEta").hide();
+                    $("#submit2").hide();
+                    $("#retour2").hide();
+                    $("#retour1").show();
+                    $("#submit1").show();
+                    $("#nom").show();
+                    $("#preno").show();
+                    $("#mail").show();
+                    $("#mdp").show();
+                    $("#inscriptionInvalide").text("Erreur d'inscription, veuillez remplir tous les champs");
+                }
                 })
                 
             });
