@@ -108,8 +108,21 @@ and open the template in the editor.
                         dataType:"json"
                     })
 
-                    . done (function(response) { 
-                        window.location.href = "ProfilEleve.html";
+                    . done (function(response) { console.log(response);
+                        if (!response || $.isEmptyObject(response)) 
+                {$("#dat").hide();
+                    $("#classe").hide();
+                    $("#codeEta").hide();
+                    $("#submit2").hide();
+                    $("#retour2").hide();
+                    $("#retour1").show();
+                    $("#submit1").show();
+                    $("#nom").show();
+                    $("#preno").show();
+                    $("#mail").show();
+                    $("#mdp").show();
+                    $("#inscriptionInvalide").text("Erreur d'inscription, adresse mail déjà connue");} else {window.location.href = "ProfilEleve.html";
+}
                     }) 
                     . fail (function(error) { 
                         $("#monEleve").text("Erreur de connexion");
