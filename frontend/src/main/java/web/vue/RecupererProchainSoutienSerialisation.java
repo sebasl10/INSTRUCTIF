@@ -28,6 +28,7 @@ public class RecupererProchainSoutienSerialisation extends Serialisation {
         response.setContentType("application/json");
         Soutien soutien = (Soutien) request.getAttribute("soutien");
         List<Soutien> historique = (List<Soutien>) request.getAttribute("historiqueEleve");
+        String url = (String) request.getAttribute("url");
         Gson gson = new Gson();
         PrintWriter out = response.getWriter();
         
@@ -41,8 +42,11 @@ public class RecupererProchainSoutienSerialisation extends Serialisation {
         {
             JsonElement soutienJson = gson.toJsonTree(soutien);
             JsonElement historiqueJson = gson.toJsonTree(historique);
+            JsonElement urlJson = gson.toJsonTree(url);
             JsonObject finalJson = soutienJson.getAsJsonObject();
             finalJson.add("historique", historiqueJson);
+            finalJson.add("url", urlJson);
+            System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
             System.out.println(finalJson);
 
             out.write(gson.toJson(soutienJson));
