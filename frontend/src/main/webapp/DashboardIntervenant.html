@@ -19,6 +19,7 @@ and open the template in the editor.
         <div class="container">
             <div id="statistiques">
                 <h2>Statistiques</h2>
+                <div id="map" style="height: 600px; width: 80%; margin: 0 auto;"></div>
             </div>
             <div id="historique">
                 <h2>Historique des soutiens</h2>
@@ -241,6 +242,72 @@ and open the template in the editor.
                 $("#accepter-soutien").hide();
             });
 
+        </script>
+        <script type="text/javascript">
+            
+            $(document).ready (function () {$.ajax({
+                    url: './ActionServlet',
+                    type: 'POST',
+                    data: { todo: 'RecupererEcole' },
+                    dataType: 'json'
+                })
+                .done(function (response) {
+                    initMap(response.ecoles);
+        
+                }).fail(function(error){
+                    
+                });
+
+            
+            });
+            var googleMapInstance = null;
+
+            function makeInfoWindow(title) {
+                return new google.maps.InfoWindow({
+                    content: '<div>Information: ' + title + '</div>'
+                });
+            }
+
+            function attachInfoWindow(marker, infowindow, htmlDescription) {
+                marker.addListener('click', function () {
+
+                    infowindow.setContent(htmlDescription);
+                    infowindow.open(googleMapInstance, this);
+                });
+            }
+
+            function initMap(ecoles) {
+                
+                googleMapInstance = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 45.7601424, lng: 4.8961779},
+                    zoom: 13
+                });
+                var infowindow = makeInfoWindow('');
+                //console.log(ecoles.length);
+                for (var i=0; i<ecoles.length;i++)
+                {
+                    var ecole = ecoles[i];
+                    var marker = new google.maps.Marker({
+                    map: googleMapInstance,
+                    position: {lat: ecole.lat, lng: ecole.lng},
+                    title: ecole.nom,
+                    });
+                    
+
+                    marker.addListener('click', function () {
+
+                        infowindow.setContent('<div>Information: ' + marker.title + '</div>');
+                        infowindow.open(googleMapInstance, marker);
+                    });
+                }
+                
+ 
+            }
+
+           
+
+        </script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhf3JleYpal9S-xouJYH8lf7Dvz5Y2Nko&callback=initMap">
         </script>
 
     </body>
