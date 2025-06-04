@@ -129,10 +129,12 @@
                         // Corps avec intervenant et matière et détails
                         let corps = $("<div>").append(
                             $("<div>").text("Séance du " + soutien.dateFin),
-                            $("<p>").text("Id : " + soutien.id),
                             $("<p>").text("Intervenant : " + soutien.intervenant.prenom + " " + soutien.intervenant.nom),
                             $("<p>").text("Matière : " + soutien.matiere.nom),
-                            $("<p>").text("Détails : " + soutien.details)
+                            $("<p>").text("Détails : " + soutien.details),
+                            $("<p>").text("Feedback : " + (soutien.feedback ? soutien.feedback : "aucun"))
+
+
                         );
 
                         // Bouton
